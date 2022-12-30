@@ -72,21 +72,27 @@ function M.run(command)
 end
 
 
-local modules = {
-  "buffers",
-  "paths",
-  "splits",
-  "telescope",
-}
+function M.setup(opts)
+  local modules = {
+    "buffers",
+    "integrations",
+    "paths",
+    "splits",
+    "telescope",
+  }
 
-
-local function add_builtin_commands()
   for _, name in pairs(modules) do
     local module_name = "commanderly.commands." .. name
     M.add(require(module_name))
   end
+
+  require("telescope").load_extension("commanderly")
 end
 
-add_builtin_commands()
+
+function M.open(line1, line2)
+  vim.cmd("Telescope commanderly")
+end
+
 
 return M
