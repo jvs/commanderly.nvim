@@ -74,10 +74,8 @@ end
 
 function M.setup(opts)
   local modules = {
-    "buffers",
+    "core",
     "integrations",
-    "paths",
-    "splits",
     "telescope",
   }
 
