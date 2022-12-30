@@ -91,6 +91,7 @@ end
 
 
 function M.open(line1, line2)
+  -- TODO: Pass line1 and line2 to commanderly extension.
   vim.cmd("Telescope commanderly")
 end
 
