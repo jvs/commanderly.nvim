@@ -7,7 +7,7 @@ local function create_command_name(title)
   local prefix = "Commanderly"
 
   -- Capitalize each word and the remove all spaces.
-  local suffix = string.gsub(" " .. title, "%W%l", string.upper):gsub("%s+", "")
+  local suffix = string.gsub(" " .. title, "%W%l", string.upper):gsub("%W+", "")
 
   return prefix .. suffix
 end
@@ -92,6 +92,39 @@ end
 
 function M.open(line1, line2)
   vim.cmd("Telescope commanderly")
+end
+
+
+local function is_available(command)
+  if command.requires ~= nil then
+    has_requirement, _ = pcall(require, command.requires)
+
+    if not has_requirement then
+      return false
+    end
+  end
+
+  if command.alias ~= nil then
+    has_alias = vim.fn.exists(":" .. command.alias) > 0
+
+    if not has_alias then
+      return false
+    end
+  end
+
+  return true
+end
+
+
+function M.get_commands()
+  local results = {}
+  for _, command in pairs(M.commands) do
+    if is_available(command) then
+      table.insert(results, command)
+    end
+  end
+
+  return results
 end
 
 

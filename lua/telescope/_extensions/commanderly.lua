@@ -98,7 +98,7 @@ local main = function(opts)
 
   pickers.new(opts, {
     prompt_title = "Commands",
-    finder = make_finder(opts, commanderly.commands),
+    finder = make_finder(opts, commanderly.get_commands()),
     sorter = conf.generic_sorter(opts),
     attach_mappings = function(prompt_bufnr, map)
       actions.select_default:replace(function()
