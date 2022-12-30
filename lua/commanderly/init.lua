@@ -106,7 +106,8 @@ local function is_available(command)
   end
 
   if command.alias ~= nil then
-    has_alias = vim.fn.exists(":" .. command.alias) > 0
+    local head = command.alias:gsub("%s.*", "")
+    has_alias = vim.fn.exists(":" .. head) > 0
 
     if not has_alias then
       return false
