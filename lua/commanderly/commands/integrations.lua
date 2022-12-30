@@ -25,6 +25,7 @@ local commands = {
     mode = "n",
     keywords = "zen mode focus",
     alias = "TZFocus",
+    -- TODO: Add a requirement that there's more than one window.
   },
   {
     title = "Toggle Extra UI Elements",
