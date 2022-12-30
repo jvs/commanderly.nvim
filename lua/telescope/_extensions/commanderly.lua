@@ -23,8 +23,6 @@ local user_opts = {
   sorting_strategy = "ascending",
   layout_strategy = "center",
   layout_config = {
-    preview_cutoff = 1,
-
     width = function(_, max_columns, _)
       return math.min(max_columns, 100)
     end,
@@ -40,6 +38,9 @@ local user_opts = {
     results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
     preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
   },
+
+  previewer = false,
+  -- winblend = 10,
 }
 
 
