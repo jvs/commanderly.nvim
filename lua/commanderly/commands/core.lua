@@ -13,6 +13,33 @@ local commands = {
     alias = "bprevious",
   },
 
+  -- Options --
+  {
+    title = "Toggle Line Numbers",
+    desc = "Turn line numbers on or off.",
+    mode = "n",
+    run = function()
+      vim.wo.number = not vim.wo.number
+
+      -- If we're turning off line numbers, then we should also turn off
+      -- relative line numbers.
+      if not vim.wo.number then
+        vim.wo.relativenumber = false
+      end
+    end
+  },
+  {
+    title = "Toggle Relative Line Numbers",
+    desc = "Turn relative line numbers on or off.",
+    mode = "n",
+    run = function()
+      -- Whether we're turning relative line numbers on or off, we want to end
+      -- up with line numbers either way.
+      vim.wo.number = true
+      vim.wo.relativenumber = not vim.wo.relativenumber
+    end
+  },
+
   -- Paths --
   {
     title = "Copy Absolute Path",
