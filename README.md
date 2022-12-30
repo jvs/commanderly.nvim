@@ -26,5 +26,6 @@ Plug "jvs/commanderly.nvim"
 ## Related Projects
 
 - [command-center](https://github.com/FeiyouG/command_center.nvim)
+- [legendary](https://github.com/mrjones2014/legendary.nvim)
 - [nvim-mapper](https://github.com/lazytanuki/nvim-mapper)
 - [telescope-command-palette](https://github.com/LinArcX/telescope-command-palette.nvim)
