@@ -17,6 +17,10 @@ local function add_command(command)
   -- Add the command to our table of all commands.
   table.insert(M.commands, command)
 
+  if command.title == nil or type(command.title) == "function" then
+    return
+  end
+
   local name = create_command_name(command.title)
   local run = function() M.run(command) end
   local opts = {}
@@ -94,18 +98,47 @@ function M.open(line1, line2)
 end
 
 
-local function is_available(command)
-  if command.requires ~= nil then
-    has_requirement, _ = pcall(require, command.requires)
+local function has_requirement(requirement)
+  -- A requirement can be a string, a function, a table, or nil.
+  if requirement == nil then
+    return true
 
-    if not has_requirement then
-      return false
+  -- If it's a string, then interpret it as the name of a lua module.
+  elseif type(requirement) == "string" then
+    local is_ok, _ = pcall(require, requirement)
+    return is_ok
+
+  -- If it's a function, then treat it as a boolean-valued function.
+  elseif type(requirement) == "function" then
+    return requirement()
+
+  -- If it's a table, then treat it as a list of requirements.
+  elseif type(requirement) == "table" then
+    for _, item in pairs(requirement) do
+      if not has_requirement(item) then
+        return false
+      end
     end
+    return true
   end
 
-  if command.alias ~= nil then
+  error("Unexpected requirement: " .. type(requirement))
+end
+
+
+local function is_available(command)
+  if command == nil then
+    return false
+
+  elseif command.hidden then
+    return false
+
+  elseif not has_requirement(command.requires) then
+    return false
+
+  elseif command.alias ~= nil then
     local head = command.alias:gsub("%s.*", "")
-    has_alias = vim.fn.exists(":" .. head) > 0
+    local has_alias = vim.fn.exists(":" .. head) > 0
 
     if not has_alias then
       return false
@@ -116,9 +149,30 @@ local function is_available(command)
 end
 
 
+local function render(command)
+  if type(command.render) == "function" then
+    command = command.render()
+  end
+
+  local result = vim.deepcopy(command)
+
+  if type(result.title) == "function" then
+    result.title = result.title()
+  end
+
+  if type(result.desc) == "function" then
+    result.desc = result.desc()
+  end
+
+  return result
+end
+
+
 function M.get_commands()
   local results = {}
   for _, command in pairs(M.commands) do
+    command = render(command)
+
     if is_available(command) then
       table.insert(results, command)
     end

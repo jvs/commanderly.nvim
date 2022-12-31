@@ -15,29 +15,54 @@ local commands = {
 
   -- Options --
   {
-    title = "Toggle Line Numbers",
-    desc = "Turn line numbers on or off.",
-    mode = "n",
-    run = function()
-      vim.wo.number = not vim.wo.number
-
-      -- If we're turning off line numbers, then we should also turn off
-      -- relative line numbers.
-      if not vim.wo.number then
-        vim.wo.relativenumber = false
+    id = "toggle_line_numbers",
+    render = function()
+      if vim.wo.number or vim.wo.relativenumber then
+        return {
+          title = "Hide Line Numbers",
+          desc = "Do not show line numbers.",
+          mode = "n",
+          run = function()
+            vim.wo.number = false
+            vim.wo.relativenumber = false
+          end,
+        }
+      else
+        return {
+          title = "Show Line Numbers",
+          desc = "Show line numbers.",
+          mode = "n",
+          run = function()
+            vim.wo.number = true
+          end,
+        }
       end
-    end
+    end,
   },
   {
-    title = "Toggle Relative Line Numbers",
-    desc = "Turn relative line numbers on or off.",
-    mode = "n",
-    run = function()
-      -- Whether we're turning relative line numbers on or off, we want to end
-      -- up with line numbers either way.
-      vim.wo.number = true
-      vim.wo.relativenumber = not vim.wo.relativenumber
-    end
+    id = "toggle_relative_line_numbers",
+    render = function()
+      if vim.wo.relativenumber then
+        return {
+          title = "Disable Relative Line Numbers",
+          desc = "Use absolute line numbers.",
+          mode = "n",
+          run = function()
+            vim.wo.number = true
+            vim.wo.relativenumber = false
+          end,
+        }
+      else
+        return {
+          title = "Show Relative Line Numbers",
+          desc = "Use relative line numbers.",
+          mode = "n",
+          run = function()
+            vim.wo.relativenumber = true
+          end,
+        }
+      end
+    end,
   },
 
   -- Paths --
