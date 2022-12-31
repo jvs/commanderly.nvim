@@ -15,6 +15,30 @@ local commands = {
 
   -- Options --
   {
+    id = "toggle_cursor_line",
+    render = function()
+      if vim.o.cursorline then
+        return {
+          title = "Hide Cursor Line",
+          desc = "Do not highlight the line of the cursor.",
+          mode = "n",
+          run = function()
+            vim.o.cursorline = false
+          end,
+        }
+      else
+        return {
+          title = "Show Cursor Line",
+          desc = "Highlight the line of the cursor.",
+          mode = "n",
+          run = function()
+            vim.o.cursorline = true
+          end,
+        }
+      end
+    end,
+  },
+  {
     id = "toggle_line_numbers",
     render = function()
       if vim.wo.number or vim.wo.relativenumber then
@@ -59,6 +83,34 @@ local commands = {
           mode = "n",
           run = function()
             vim.wo.relativenumber = true
+          end,
+        }
+      end
+    end,
+  },
+  {
+    id = "toggle_word_wrap",
+    render = function()
+      if vim.o.wrap then
+        return {
+          title = "Disable Word Wrapping",
+          desc = "Display each line of text on a single line.",
+          mode = "n",
+          run = function()
+            vim.o.wrap = false
+            vim.keymap.del("n", "k")
+            vim.keymap.del("n", "j")
+          end,
+        }
+      else
+        return {
+          title = "Enable Word Wrapping",
+          desc = "Use multiple lines to display long lines of text.",
+          mode = "n",
+          run = function()
+            vim.o.wrap = true
+            vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+            vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
           end,
         }
       end
