@@ -1,52 +1,45 @@
 local M = {}
 
-M.commands = {}
+-- A map of labels to commands.
+local command_index = {}
+
+-- A list of all the globally-registered commands.
+local command_list = {}
 
 
-local function create_command_name(title)
-  local prefix = "Commanderly"
-
-  -- Capitalize each word and the remove all spaces.
-  local suffix = string.gsub(" " .. title, "%W%l", string.upper):gsub("%W+", "")
-
-  return prefix .. suffix
+local function create_key(s)
+  return s:gsub("[^a-zA-Z0-9_]", "_"):lower()
 end
 
 
 local function add_command(command)
-  -- Add the command to our table of all commands.
-  table.insert(M.commands, command)
+  -- Add the command to our list of all commands.
+  table.insert(command_list, command)
 
-  if command.title == nil or type(command.title) == "function" then
-    return
+  -- Add the command to our index, using both its id and its title.
+  if type(command.id) == "string" then
+    command_index[create_key(command.id)] = command
   end
 
-  local name = create_command_name(command.title)
-  local run = function() M.run(command) end
-  local opts = {}
-
-  if command.desc ~= nil then
-    opts["desc"] = command.desc
+  if type(command.title) == "string" then
+    command_index[create_key(command.title)] = command
   end
 
-  -- Create a user command.
-  vim.api.nvim_create_user_command(name, run, opts)
+  if command.keymapping ~= nil then
+    local run = function() M.run(command) end
+    local opts = vim.deepcopy(command.opts or {})
 
-  -- Optionally create a keymapping.
-  if command.mode ~= nil then
-    local lhs = command.mapping
-
-    if lhs == nil then
-      lhs = "<Plug>(" .. name .. ")"
+    if opts.desc == nil then
+      opts.desc = command.desc
     end
 
-    vim.keymap.set(command.mode, lhs, run, opts)
+    vim.keymap.set(command.mode, command.keymapping, run, opts)
   end
 end
 
 
-function M.add(commands)
-  if commands.title ~= nil then
+function M.add_commands(commands)
+  if commands.title ~= nil or commands.id ~= nill then
     add_command(commands)
   else
     for _, command in pairs(commands) do
@@ -56,7 +49,45 @@ function M.add(commands)
 end
 
 
+function M.map(keys, command, opts)
+  opts = opts or {}
+
+  local mode = opts.mode
+
+  if mode == nil and type(command) == "table" then
+    mode = command.mode
+  end
+
+  if mode == nil then
+    mode = "n"
+  end
+
+  local run = function() M.run(command) end
+  vim.keymap.set(mode, keys, run, opts)
+end
+
+
+function M.get_command(s)
+  return command_index[create_key(s)]
+end
+
+
+local function get_command_or_fail(s)
+  local command = M.get_command(s)
+
+  if command == nil then
+    error("Command not found: " .. s)
+  end
+
+  return command
+end
+
+
 function M.run(command)
+  if type(command) == "string" then
+    command = get_command_or_fail(command)
+  end
+
   local alias = command.alias
   local run = command.run
 
@@ -85,7 +116,7 @@ function M.setup(opts)
 
   for _, name in pairs(modules) do
     local module_name = "commanderly.commands." .. name
-    M.add(require(module_name))
+    M.add_commands(require(module_name))
   end
 
   require("telescope").load_extension("commanderly")
@@ -174,7 +205,7 @@ end
 
 function M.get_commands()
   local results = {}
-  for _, command in pairs(M.commands) do
+  for _, command in pairs(command_list) do
     command = render(command)
 
     if is_available(command) then
