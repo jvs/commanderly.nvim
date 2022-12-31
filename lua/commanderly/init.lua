@@ -160,6 +160,10 @@ local function render(command)
     result.title = result.title()
   end
 
+  if result.title == nil then
+    return nil
+  end
+
   if type(result.desc) == "function" then
     result.desc = result.desc()
   end
