@@ -120,6 +120,12 @@ local commands = {
     alias = "Telescope grep_string",
   },
   {
+    title = "Search Help Tags",
+    desc = "Lists available help tags and opens a new window with the relevant help info.",
+    mode = "n",
+    alias = "Telescope help_tags",
+  },
+  {
     title = "Search Keymappings",
     desc = "Search all of the current keymappings.",
     mode = "n",
