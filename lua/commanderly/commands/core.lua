@@ -209,6 +209,16 @@ local commands = {
     mode = "n",
     run = "<C-W><C-L>",
   },
+
+  -- Tabs --
+  {
+    title = "Convert Tabs to Spaces",
+    id = "retab",
+    desc = "Replace all tabs with spaces, using the current value of tabstop.",
+    mode = "n",
+    alias = "retab",
+    -- TODO: Maybe have a prompt that asks for the value of tabstop.
+  },
 }
 
 return commands
