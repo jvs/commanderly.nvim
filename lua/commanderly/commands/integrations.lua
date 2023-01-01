@@ -32,6 +32,7 @@ local commands = {
   -- Add command to toggle undotree.
   {
     title = "Toggle Undotree",
+    id = "undotree",
     desc = "View or hide the undotree for the current file.",
     mode = "n",
     alias = "UndotreeToggle",
@@ -48,7 +49,33 @@ local commands = {
     requires = "Comment.api",
   },
 
-  -- Command to toggle Zen-Mode.
+  -- Add commands to toggle Neo-tree.
+  {
+    title = "Toggle Filesystem Explorer",
+    id = "neotree_filesystem",
+    desc = "Open a file browser and reveal the current file.",
+    mode = "n",
+    alias = "Neotree reveal toggle",
+    keywords = "neo-tree",
+  },
+  {
+    title = "Toggle Buffer Explorer",
+    id = "neotree_buffers",
+    desc = "Open a tree explorer of the current buffers.",
+    mode = "n",
+    alias = "Neotree buffers toggle",
+    keywords = "neo-tree",
+  },
+  {
+    title = "Toggle Git Status Explorer",
+    id = "neotree_git_status",
+    desc = "Open a tree explorer of the current git status.",
+    mode = "n",
+    alias = "Neotree git_status toggle",
+    keywords = "neo-tree",
+  },
+
+  -- Add command to toggle Zen-Mode.
   {
     title = "Toggle Zen-Mode",
     desc = "Toggle zen-mode.",
