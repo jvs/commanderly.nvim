@@ -24,7 +24,7 @@ local user_opts = {
   layout_strategy = "center",
   layout_config = {
     width = function(_, max_columns, _)
-      return math.min(max_columns, 100)
+      return math.min(max_columns, 108)
     end,
 
     height = function(_, _, max_lines)
@@ -45,32 +45,44 @@ local user_opts = {
 
 
 local make_finder = function(opts, commands)
-  local max_title_width = 0
-  local max_desc_width = 0
+  local title_width = 0
+  local desc_width = 0
+  local keys_width = 0
+
+  local padding = 4
+  local max_title_width = 40
+  local max_keys_width = 10
+  local expected_width = 108
+
   local results = {}
 
   for _, command in pairs(commands) do
     table.insert(results, command)
     local next_title_width = strings.strdisplaywidth(command.title or "")
-    local next_desc_width = strings.strdisplaywidth(command.desc or "")
-
-    max_title_width = math.max(max_title_width, next_title_width)
-    max_desc_width = math.max(max_desc_width, next_desc_width)
+    local next_keys_width = strings.strdisplaywidth(command.keymapping or "")
+    title_width = math.max(title_width, next_title_width)
+    keys_width = math.max(keys_width, next_keys_width)
   end
+
+  title_width = math.min(title_width + padding, max_title_width)
+  keys_width = math.min(keys_width, max_keys_width)
+  desc_width = expected_width - title_width - keys_width - 10
 
   local displayer = entry_display.create {
     separator = " ",
     items = {
-      { width = max_title_width + 4 },
-      { width = max_desc_width },
+      { width = title_width },
+      { width = desc_width },
+      { width = keys_width },
     }
   }
 
   local make_display = function(entry)
     local command = entry.value
     return displayer {
-      { command.title or "", "TelescopeResultsIdentifier" },
+      { command.title or ""  },
       { command.desc or "", "TelescopeResultsComment" },
+      { command.shortcut or "", "TelescopeResultsIdentifier" },
     }
   end
 

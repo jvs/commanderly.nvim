@@ -6,6 +6,9 @@ local command_index = {}
 -- A list of all the globally-registered commands.
 local command_list = {}
 
+-- A table of all the keymappings.
+local keymappings = {}
+
 
 local function create_key(s)
   return s:gsub("[^a-zA-Z0-9_]", "_"):lower()
@@ -13,6 +16,18 @@ end
 
 
 local function add_command(command)
+  if command.id == nil and command.title == nil then
+    error("Each command must have an id, or a title, or both.")
+  end
+
+  -- Don't mutate the caller's table.
+  command = vim.deepcopy(command)
+
+  -- Assign an ID if the command doesn't have one.
+  if command.id == nil then
+    command.id = create_key(command.title)
+  end
+
   -- Add the command to our list of all commands.
   table.insert(command_list, command)
 
@@ -26,14 +41,7 @@ local function add_command(command)
   end
 
   if command.keymapping ~= nil then
-    local run = function() M.run(command) end
-    local opts = vim.deepcopy(command.opts or {})
-
-    if opts.desc == nil then
-      opts.desc = command.desc
-    end
-
-    vim.keymap.set(command.mode, command.keymapping, run, opts)
+    M.map(command.keymapping, command, command.opts)
   end
 end
 
@@ -50,20 +58,48 @@ end
 
 
 function M.map(keys, command, opts)
-  opts = opts or {}
+  opts = vim.deepcopy(opts or {})
+
+  local command_info
+  if type(command) == "string" then
+    command_info = M.get_command(command)
+  else
+    command_info = command
+  end
+
+  local has_info = (type(command_info) == "table")
+
+  local command_key
+  if has_info then
+    command_key = create_key(command_info.id)
+  else
+    command_key = create_key(command)
+  end
 
   local mode = opts.mode
 
-  if mode == nil and type(command) == "table" then
-    mode = command.mode
+  if mode == nil and has_info then
+    mode = command_info.mode
   end
 
   if mode == nil then
     mode = "n"
   end
 
+  if opts.desc == nil and has_info then
+    opts.desc = command_info.desc
+  end
+
   local run = function() M.run(command) end
   vim.keymap.set(mode, keys, run, opts)
+
+  -- Record this keymapping in our table of all the keymappings.
+  local found_mappings = keymappings[command_key]
+  if found_mappings == nil then
+    keymappings[command_key] = { keys }
+  else
+    table.insert(found_mappings, keys)
+  end
 end
 
 
@@ -180,24 +216,87 @@ local function is_available(command)
 end
 
 
+local function get_keymapping(command)
+  if command.keymapping ~= nil then
+    return command.keymapping
+  end
+
+  local result = keymappings[create_key(command.id)]
+
+  if result ~= nil then
+    return result
+
+  elseif type(command.title) == "string" then
+    return keymappings[create_key(command.title)]
+
+  else
+    return nil
+  end
+end
+
+
+local function render_keymapping(keymapping)
+  if keymapping == nil then
+    return nil
+  end
+
+  local result
+  for _, keys in pairs(keymapping) do
+    if result == nil or #result >= #keys then
+      result = keys
+    end
+  end
+  return result
+end
+
+
+local function render_shortcut(command)
+  local shortcut = render_keymapping(command.keymapping)
+
+  if shortcut ~= nil then
+    return shortcut
+  end
+
+  if type(command.alias) == "string" then
+    return ":" .. command.alias
+  end
+end
+
+
 local function render(command)
+  -- Look up the keymapping before rendering the command.
+  local keymapping = get_keymapping(command)
+
+  -- Call the command's render function.
   if type(command.render) == "function" then
     command = command.render()
   end
 
+  -- Create a deepcopy so that we don't mutate the command.
   local result = vim.deepcopy(command)
 
+  -- Assign the keymapping if we don't have one yet.
+  if result.keymapping == nil then
+    result.keymapping = keymapping
+  end
+
+  -- Render the title if it's a function.
   if type(result.title) == "function" then
     result.title = result.title()
   end
 
+  -- If we don't have a title, then drop this command.
   if result.title == nil then
     return nil
   end
 
+  -- Render the description if it's a function.
   if type(result.desc) == "function" then
     result.desc = result.desc()
   end
+
+  -- Render the shortcut.
+  result.shortcut = render_shortcut(result)
 
   return result
 end
@@ -205,6 +304,7 @@ end
 
 function M.get_commands()
   local results = {}
+
   for _, command in pairs(command_list) do
     command = render(command)
 
