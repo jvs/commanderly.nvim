@@ -15,6 +15,16 @@ local commands = {
     alias = "bprevious",
   },
 
+  -- Configuration --
+  {
+    title = "Reload Neovim Configuration",
+    id = "source_vimrc",
+    desc = function()
+      return ":source " .. os.getenv("MYVIMRC")
+    end,
+    alias = "source $MYVIMRC",
+  },
+
   -- Options --
   {
     id = "toggle_cursor_line",
