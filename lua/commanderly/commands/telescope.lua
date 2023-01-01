@@ -7,6 +7,13 @@ local commands = {
     alias = "Telescope colorscheme",
   },
   {
+    title = "Explore Vim Options",
+    desc = "Explore vim options and view or modify their current values.",
+    mode = "n",
+    alias = "Telescope vim_options",
+    keywords = "settings",
+  },
+  {
     title = "Find Buffers",
     desc = "Search for currently open buffers.",
     mode = "n",
