@@ -48,6 +48,14 @@ local commands = {
     requires = "Comment.api",
   },
 
+  -- Command to toggle Zen-Mode.
+  {
+    title = "Toggle Zen-Mode",
+    desc = "Toggle zen-mode.",
+    mode = "n",
+    alias = "ZenMode",
+  },
+
   -- Add commands to toggle true zen-modes.
   {
     title = "Focus Current Window",
@@ -70,14 +78,6 @@ local commands = {
     mode = "n",
     keywords = "zen mode ataraxis",
     alias = "TZAtaraxis",
-  },
-
-  -- Command to toggle Zen-Mode.
-  {
-    title = "Toggle Zen-Mode",
-    desc = "Toggle zen-mode.",
-    mode = "n",
-    alias = "ZenMode",
   },
 
   -- Add commands to switch vscode colorschemes.
