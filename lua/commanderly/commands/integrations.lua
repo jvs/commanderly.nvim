@@ -1,4 +1,34 @@
 local commands = {
+  -- Add commands to toggle lualine.
+  {
+    title = "Hide Status Line",
+    desc = "Hide the lualine statusline.",
+    mode = "n",
+    run = function()
+      require("lualine").hide()
+    end,
+    requires = function()
+      -- TODO: Find out if there's a better way to tell if lualine is visible.
+      lualine_ok, _ = pcall(require, "lualine")
+      return lualine_ok and string.find(vim.o.statusline, "lualine")
+    end,
+    keywords = "lualine",
+  },
+  {
+    title = "Show Status Line",
+    desc = "Show the lualine statusline.",
+    mode = "n",
+    run = function()
+      require("lualine").hide({unhide=true})
+    end,
+    requires = function()
+      -- TODO: Find out if there's a better way to tell if lualine is visible.
+      lualine_ok, _ = pcall(require, "lualine")
+      return lualine_ok and not string.find(vim.o.statusline, "lualine")
+    end,
+    keywords = "lualine",
+  },
+
   -- Add command to toggle undotree.
   {
     title = "Toggle Undotree",
