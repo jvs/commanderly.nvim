@@ -10,4 +10,4 @@ vim.api.nvim_create_user_command("Commanderly", function(...)
   local line2 = args[1]["line2"]
 
   require("commanderly").open(line1, line2)
-end, { range = true, bar = true })
+end, { range = true })
