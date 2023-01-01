@@ -23,6 +23,7 @@ local commands = {
       return ":source " .. os.getenv("MYVIMRC")
     end,
     alias = "source $MYVIMRC",
+    keywords = "source vimrc",
   },
 
   -- Options --
