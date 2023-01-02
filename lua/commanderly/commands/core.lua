@@ -35,6 +35,38 @@ local commands = {
     keywords = "packer sync",
   },
 
+  -- Files --
+  {
+    title = "New File",
+    desc = "Create new untitled file.",
+    alias = "enew",
+  },
+  {
+    title = "Reload Current File",
+    desc = "Reload the current file from the disk.",
+    alias = "edit",
+  },
+  {
+    title = "Revert File",
+    desc = "Discard current changes and reload the current file from the disk.",
+    alias = "edit!",
+  },
+  {
+    title = "Close Current File",
+    desc = "Close the current file.",
+    alias = "bd",
+  },
+  {
+    title = "Close All Files",
+    desc = "Close all of the currently open files.",
+    alias = "%bd",
+  },
+  {
+    title = "Save Current File",
+    desc = "Write the current file to disk.",
+    alias = "write",
+  },
+
   -- Options --
   {
     id = "toggle_cursor_line",
@@ -198,8 +230,14 @@ local commands = {
   {
     title = "Close Window",
     desc = "Close the current window.",
-    mode = "n",
-    alias = "q",
+    alias = "quit",
+    keywords = "quit",
+  },
+  {
+    title = "Close Window (without saving)",
+    desc = "Close the current window without saving any changes.",
+    alias = "quit!",
+    keywords = "quit",
   },
   {
     title = "Move to Left Window",
