@@ -229,13 +229,23 @@ local function render_keymapping(keymapping)
   return result
 end
 
+local function render_alias(s)
+  local wincmd = "wincmd "
+  if s:sub(1, string.len(wincmd)) == wincmd then
+    return "ctrl+w,ctrl+" .. s:sub(string.len(wincmd) + 1)
+  else
+    return ":" .. s
+  end
+end
+
 local function render_shortcut(command)
   local shortcut = render_keymapping(command.keymapping)
 
   if shortcut ~= nil then
     return shortcut
   elseif type(command.alias) == "string" then
-    return ":" .. command.alias
+    return render_alias(command.alias)
+    -- return ":" .. command.alias
   elseif type(command.run) == "string" then
     return command.run
   end

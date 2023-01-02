@@ -441,25 +441,25 @@ local commands = {
     title = "Move to Left Window",
     id = "window_left",
     desc = "Move the cursor to the left window.",
-    run = "<C-W><C-H>",
+    alias = "wincmd h",
   },
   {
     title = "Move to Lower Window",
     id = "window_down",
     desc = "Move the cursor to the lower window.",
-    run = "<C-W><C-J>",
+    alias = "wincmd j",
   },
   {
     title = "Move to Upper Window",
     id = "window_up",
     desc = "Move the cursor to the upper window.",
-    run = "<C-W><C-K>",
+    alias = "wincmd k",
   },
   {
     title = "Move to Right Window",
     id = "window_right",
     desc = "Move the cursor to the right window.",
-    run = "<C-W><C-L>",
+    alias = "wincmd l",
   },
 
   -- Tabs --
