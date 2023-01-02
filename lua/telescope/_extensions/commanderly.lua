@@ -80,13 +80,19 @@ local make_finder = function(opts, commands)
   local make_display = function(entry)
     local command = entry.value
     return displayer {
-      { command.title or ""  },
+      { command.title or "" },
       { command.desc or "", "TelescopeResultsComment" },
       { command.shortcut or "", "TelescopeResultsIdentifier" },
     }
   end
 
-  table.sort(results, function(a, b) return a.title <= b.title end)
+  table.sort(results, function(a, b)
+    if a.title ~= b.title then
+      return a.title < b.title
+    else
+      return (a.desc or "") < (b.desc or "")
+    end
+  end)
 
   return finders.new_table {
     results = results,
