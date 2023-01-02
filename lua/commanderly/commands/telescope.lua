@@ -1,6 +1,7 @@
 local commands = {
   {
     title = "Change colorscheme",
+    id = "telescope_colorscheme",
     desc = "Pick from the available color schemes.",
     mode = "n",
     keywords = "pick theme",
@@ -8,6 +9,7 @@ local commands = {
   },
   {
     title = "Explore Vim Options",
+    id = "telescope_vim_options",
     desc = "Explore vim options and view or modify their current values.",
     mode = "n",
     alias = "Telescope vim_options",
@@ -15,12 +17,14 @@ local commands = {
   },
   {
     title = "Find Buffers",
+    id = "telescope_buffers",
     desc = "Search for currently open buffers.",
     mode = "n",
     alias = "Telescope buffers",
   },
   {
     title = "Find Files",
+    id = "telescope_find_files",
     desc = "Search for files in the current working directory.",
     mode = "n",
     keywords = "search",
@@ -28,6 +32,7 @@ local commands = {
   },
   {
     title = "Find Recent Files",
+    id = "telescope_oldfiles",
     desc = "Search for previously open files.",
     mode = "n",
     keywords = "search",
@@ -35,6 +40,7 @@ local commands = {
   },
   {
     title = "Find Repository Files",
+    is = "telescope_git_files",
     desc = "Search for files in the current git repository.",
     mode = "n",
     keywords = "git",
@@ -42,6 +48,7 @@ local commands = {
   },
   {
     title = "View Git Commits",
+    id = "telescope_git_commits",
     desc = "List git commits.",
     mode = "n",
     keywords = "history",
@@ -49,6 +56,7 @@ local commands = {
   },
   {
     title = "View File History",
+    id = "telescope_git_bcommits",
     desc = "List git commits for the current file.",
     mode = "n",
     keywords = "git commits",
@@ -56,6 +64,7 @@ local commands = {
   },
   {
     title = "View Git Branches",
+    id = "telescope_git_branches",
     desc = "List git branches for the current repostory.",
     mode = "n",
     keywords = "checkout",
@@ -63,18 +72,21 @@ local commands = {
   },
   {
     title = "View Git Status",
+    id = "telescope_git_status",
     desc = "View the current changes in each file.",
     mode = "n",
     alias = "Telescope git_status",
   },
   {
     title = "View Git Stash",
+    id = "telescope_git_stash",
     desc = "View the currently stashed items in git.",
     mode = "n",
     alias = "Telescope git_stash",
   },
   {
     title = "Resume Search",
+    id = "telescope_resume",
     desc = "Resume the previous search.",
     mode = "n",
     keywords = "back find",
@@ -82,6 +94,7 @@ local commands = {
   },
   {
     title = "Search Definitions",
+    id = "telescope_treesitter",
     desc = "Search variable names and functions in the current file.",
     mode = "n",
     keywords = "variables functions names definitions",
@@ -89,24 +102,28 @@ local commands = {
   },
   {
     title = "Search Commands",
+    id = "telescope_commands",
     desc = "Search all of the currently available commands.",
     mode = "n",
     alias = "Telescope commands",
   },
   {
     title = "Search Command History",
+    id = "telescope_command_history",
     desc = "Search commands that were executed recently.",
     mode = "n",
     alias = "Telescope command_history",
   },
   {
     title = "Search in Current File",
+    id = "telescope_current_buffer_fuzzy_find",
     desc = "Fuzzily search for a string in the current file.",
     mode = "n",
     alias = "Telescope current_buffer_fuzzy_find",
   },
   {
     title = "Search in Files",
+    id = "telescope_live_grep",
     desc = "Search for a string in the current working directory.",
     mode = "n",
     keywords = "find grep",
@@ -114,6 +131,7 @@ local commands = {
   },
   {
     title = "Search for Current Word",
+    id = "telescope_grep_string",
     desc = "Searches for the string under the cursor in the current working directory.",
     mode = "n",
     keywords = "files find grep word",
@@ -121,12 +139,14 @@ local commands = {
   },
   {
     title = "Search Help Tags",
+    id = "telescope_help_tags",
     desc = "Lists available help tags and opens a new window with the relevant help info.",
     mode = "n",
     alias = "Telescope help_tags",
   },
   {
     title = "Search Keymappings",
+    id = "telescope_keymaps",
     desc = "Search all of the current keymappings.",
     mode = "n",
     keywords = "find key mapping keymap",
@@ -134,12 +154,21 @@ local commands = {
   },
   {
     title = "Search Quickfix List",
+    id = "telescope_quickfix",
     desc = "Search items in the quickfix list.",
     mode = "n",
     alias = "Telescope quickfix",
   },
   {
+    title = "Search Diagnostics",
+    id = "telescope_diagnostics",
+    desc = "Search all current diagnostics.",
+    mode = "n",
+    alias = "Telescope diagnostics",
+  },
+  {
     title = "Open Telescope",
+    id = "telescope",
     desc = "View a list of available fuzzy finders.",
     mode = "n",
     alias = "Telescope search tool",
