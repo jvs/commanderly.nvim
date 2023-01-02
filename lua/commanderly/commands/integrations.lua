@@ -3,7 +3,6 @@ local commands = {
   {
     title = "Hide Status Line",
     desc = "Hide the lualine statusline.",
-    mode = "n",
     run = function()
       require("lualine").hide()
     end,
@@ -17,7 +16,6 @@ local commands = {
   {
     title = "Show Status Line",
     desc = "Show the lualine statusline.",
-    mode = "n",
     run = function()
       require("lualine").hide({unhide=true})
     end,
@@ -34,7 +32,6 @@ local commands = {
     title = "Toggle Undotree",
     id = "undotree",
     desc = "View or hide the undotree for the current file.",
-    mode = "n",
     alias = "UndotreeToggle",
   },
 
@@ -42,7 +39,6 @@ local commands = {
   {
     title = "Toggle Comment",
     desc = "Comment or uncomment current line.",
-    mode = "n",
     run = function()
       require("Comment.api").toggle.linewise.current()
     end,
@@ -54,7 +50,6 @@ local commands = {
     title = "Toggle Filesystem Explorer",
     id = "neotree_filesystem",
     desc = "Open a file browser and reveal the current file.",
-    mode = "n",
     alias = "Neotree reveal toggle",
     keywords = "neo-tree",
   },
@@ -62,7 +57,6 @@ local commands = {
     title = "Toggle Buffer Explorer",
     id = "neotree_buffers",
     desc = "Open a tree explorer of the current buffers.",
-    mode = "n",
     alias = "Neotree buffers toggle",
     keywords = "neo-tree",
   },
@@ -70,7 +64,6 @@ local commands = {
     title = "Toggle Git Status Explorer",
     id = "neotree_git_status",
     desc = "Open a tree explorer of the current git status.",
-    mode = "n",
     alias = "Neotree git_status toggle",
     keywords = "neo-tree",
   },
@@ -79,7 +72,6 @@ local commands = {
   {
     title = "Toggle Zen-Mode",
     desc = "Toggle zen-mode.",
-    mode = "n",
     alias = "ZenMode",
   },
 
@@ -87,7 +79,6 @@ local commands = {
   {
     title = "Focus Current Window",
     desc = "Toggle zen-mode for focusing on the current window.",
-    mode = "n",
     keywords = "zen mode focus",
     alias = "TZFocus",
     -- TODO: Add a requirement that there's more than one window.
@@ -95,14 +86,12 @@ local commands = {
   {
     title = "Toggle Extra UI Elements",
     desc = "Hide or show extra UI elements like line numbers and the statusline.",
-    mode = "n",
     keywords = "zen mode minimalist",
     alias = "TZMinimalist",
   },
   {
     title = "Toggle True Zen-Mode",
     desc = "Toggle zen-mode.",
-    mode = "n",
     keywords = "zen mode ataraxis",
     alias = "TZAtaraxis",
   },
@@ -111,7 +100,6 @@ local commands = {
   {
     title = "Use Dark VSCode Colors",
     desc = "Use the dark VSCode colorscheme",
-    mode = "n",
     keywords = "color scheme theme",
     run = function()
       require("vscode").change_style("dark")
@@ -121,7 +109,6 @@ local commands = {
   {
     title = "Use Light VSCode Colors",
     desc = "Use the light VSCode colorscheme",
-    mode = "n",
     keywords = "color scheme theme",
     run = function()
       require("vscode").change_style('light')
@@ -133,7 +120,6 @@ local commands = {
   {
     title = "Format Current File",
     desc = "Automatically format the current file.",
-    mode = "n",
     keywords = "lsp",
     alias = "Format",
   },
