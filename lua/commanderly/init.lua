@@ -149,12 +149,10 @@ function M.setup(opts)
   require("telescope").load_extension("commanderly")
 end
 
-
 function M.open(line1, line2)
   -- TODO: Pass line1 and line2 to commanderly extension.
-  vim.cmd("Telescope commanderly")
+  require("telescope").extensions.commanderly.commanderly()
 end
-
 
 local function has_requirement(requirement)
   -- A requirement can be a string, a function, a table, or nil.
