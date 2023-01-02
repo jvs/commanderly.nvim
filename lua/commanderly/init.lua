@@ -9,11 +9,9 @@ local command_list = {}
 -- A table of all the keymappings.
 local keymappings = {}
 
-
 local function create_key(s)
   return s:gsub("[^a-zA-Z0-9_]", "_"):lower()
 end
-
 
 local function add_command(command)
   if command.id == nil and command.title == nil then
@@ -45,7 +43,6 @@ local function add_command(command)
   end
 end
 
-
 function M.add_commands(commands)
   if commands.title ~= nil or commands.id ~= nil then
     add_command(commands)
@@ -55,7 +52,6 @@ function M.add_commands(commands)
     end
   end
 end
-
 
 function M.map(keys, command, opts)
   opts = vim.deepcopy(opts or {})
@@ -90,7 +86,9 @@ function M.map(keys, command, opts)
     opts.desc = command_info.desc
   end
 
-  local run = function() M.run(command) end
+  local run = function()
+    M.run(command)
+  end
   vim.keymap.set(mode, keys, run, opts)
 
   -- Record this keymapping in our table of all the keymappings.
@@ -102,11 +100,9 @@ function M.map(keys, command, opts)
   end
 end
 
-
 function M.get_command(s)
   return command_index[create_key(s)]
 end
-
 
 local function get_command_or_fail(s)
   local command = M.get_command(s)
@@ -118,7 +114,6 @@ local function get_command_or_fail(s)
   return command
 end
 
-
 function M.run(command)
   if type(command) == "string" then
     command = get_command_or_fail(command)
@@ -129,19 +124,15 @@ function M.run(command)
 
   if type(run) == "function" then
     run()
-
   elseif type(run) == "string" then
     local keys = vim.api.nvim_replace_termcodes(run, true, false, true)
     vim.api.nvim_feedkeys(keys, "t", true)
-
   elseif type(alias) == "string" then
     vim.cmd(alias)
-
   else
     error('Invalid command. Expected "alias" or "run", received: ' .. command)
   end
 end
-
 
 function M.setup(opts)
   local modules = {
@@ -192,17 +183,13 @@ local function has_requirement(requirement)
   error("Unexpected requirement: " .. type(requirement))
 end
 
-
 local function is_available(command)
   if command == nil then
     return false
-
   elseif command.hidden then
     return false
-
   elseif not has_requirement(command.requires) then
     return false
-
   elseif command.alias ~= nil then
     local head = command.alias:gsub("%s.*", "")
     local has_alias = vim.fn.exists(":" .. head) > 0
@@ -215,7 +202,6 @@ local function is_available(command)
   return true
 end
 
-
 local function get_keymapping(command)
   if command.keymapping ~= nil then
     return command.keymapping
@@ -225,15 +211,12 @@ local function get_keymapping(command)
 
   if result ~= nil then
     return result
-
   elseif type(command.title) == "string" then
     return keymappings[create_key(command.title)]
-
   else
     return nil
   end
 end
-
 
 local function render_keymapping(keymapping)
   if keymapping == nil then
@@ -301,7 +284,6 @@ local function render(command)
   return result
 end
 
-
 function M.get_commands()
   local results = {}
 
@@ -315,6 +297,5 @@ function M.get_commands()
 
   return results
 end
-
 
 return M
