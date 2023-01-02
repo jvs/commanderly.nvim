@@ -22,6 +22,18 @@ local commands = {
     alias = "bprevious",
   },
 
+  -- Commands --
+  {
+    title = "Open Command Editor",
+    desc = "Edit a command in a special command-line window.",
+    run = "q:",
+  },
+  {
+    title = "Open Search Editor",
+    desc = "Edit a search string in a special command-line window.",
+    run = "q/",
+  },
+
   -- Configuration --
   {
     title = "Reload Neovim Configuration",
