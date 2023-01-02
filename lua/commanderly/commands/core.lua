@@ -7,6 +7,28 @@ local function is_quickfix_open()
   return false
 end
 
+local function is_loclist_open()
+  -- TODO: Figure out how to tell if the loclist is open for the current window.
+  local winid = vim.api.nvim_get_current_win()
+  local wininfo = vim.fn.getwininfo(winid)[1]
+  local tabnr = wininfo.tabnr
+  -- local wincol = vim.fn.wincol()
+  local wincol = wininfo.wincol
+  for _, info in pairs(vim.fn.getwininfo()) do
+    if info.loclist == 1 and info.tabnr == tabnr and info.wincol == wincol then
+      return true
+    end
+  end
+  return false
+end
+
+local function has_attached_lsp()
+  local filter = { bufnr = vim.fn.bufnr() }
+  local clients = vim.lsp.get_active_clients(filter)
+  local num_clients = #vim.tbl_keys(clients)
+  return num_clients > 0
+end
+
 -- For now, assume diagnostics start out enabled.
 -- TODO: Figure out how to detect if diagnostics are enabled.
 local are_diagnostics_enabled = true
@@ -48,14 +70,6 @@ local commands = {
     alias = "source $MYVIMRC",
     keywords = "source vimrc",
   },
-  {
-    title = "Update Plugins",
-    id = "packer_sync",
-    desc = "Source vimrc and run PackerSync",
-    alias = "source $MYVIMRC | PackerSync",
-    requires = "packer",
-    keywords = "packer sync",
-  },
 
   -- Diagnostics --
   {
@@ -84,6 +98,40 @@ local commands = {
     end,
     keywords = "lsp",
   },
+  {
+    title = "Move to Next Diagnostic",
+    id = "next_diagnostic",
+    desc = "Move the cursor to the next diagnostic in this file.",
+    run = vim.diagnostic.goto_next,
+    requires = has_attached_lsp,
+    -- alias = "lua vim.diagnostic.goto_next()",
+    keywords = "lsp",
+  },
+  {
+    title = "Move to Previous Diagnostic",
+    id = "previous_diagnostic",
+    desc = "Move the cursor to the previous diagnostic in this file.",
+    run = vim.diagnostic.goto_prev,
+    requires = has_attached_lsp,
+    -- alias = "lua vim.diagnostic.goto_prev()",
+    keywords = "lsp",
+  },
+  {
+    title = "Reveal Diagnostics Popup",
+    id = "diagnostic_open_float",
+    desc = "Show diagnostics in a floating window.",
+    run = vim.diagnostic.open_float,
+    requires = has_attached_lsp,
+    keywords = "lsp",
+  },
+  {
+    title = "Record Diagnostic Locations",
+    id = "diagnostic_setloclist",
+    desc = "Add diagnostics for the current file to its location list.",
+    run = vim.diagnostic.setloclist,
+    requires = has_attached_lsp,
+    keywords = "lsp",
+  },
 
   -- Files --
   {
@@ -107,6 +155,12 @@ local commands = {
     alias = "bd",
   },
   {
+    title = "Discard Current File",
+    desc = "Close the current file without saving any changes.",
+    alias = "bd!",
+    keywords = "close without saving",
+  },
+  {
     title = "Close All Files",
     desc = "Close all of the currently open files.",
     alias = "%bd",
@@ -115,6 +169,26 @@ local commands = {
     title = "Save Current File",
     desc = "Write the current file to disk.",
     alias = "write",
+  },
+
+  -- Location List --
+  {
+    title = "Open Location Window",
+    desc = "Open the loclist window for the current file.",
+    requires = function()
+      return not is_loclist_open()
+    end,
+    alias = "lopen",
+    keywords = "show",
+  },
+  {
+    title = "Close Location Window",
+    desc = "Close the loclist window for the current file.",
+    requires = function()
+      return is_loclist_open()
+    end,
+    alias = "lclose",
+    keywords = "hide",
   },
 
   -- Options --

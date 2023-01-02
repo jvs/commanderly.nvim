@@ -121,7 +121,7 @@ local commands = {
     title = "Format Current File",
     desc = "Automatically format the current file.",
     keywords = "lsp",
-    alias = "Format",
+    run = vim.lsp.buf.format(),
   },
 }
 

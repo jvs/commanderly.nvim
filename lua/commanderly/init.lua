@@ -89,6 +89,7 @@ function M.map(keys, command, opts)
   local run = function()
     M.run(command)
   end
+
   vim.keymap.set(mode, keys, run, opts)
 
   -- Record this keymapping in our table of all the keymappings.

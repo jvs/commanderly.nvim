@@ -133,6 +133,12 @@ local commands = {
     alias = "Telescope keymaps",
   },
   {
+    title = "Search Location List",
+    id = "telescope_loclist",
+    desc = "Search items from the current window's location list.",
+    alias = "Telescope loclist",
+  },
+  {
     title = "Search Quickfix List",
     id = "telescope_quickfix",
     desc = "Search items in the quickfix list.",
