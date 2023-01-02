@@ -47,7 +47,7 @@ end
 
 
 function M.add_commands(commands)
-  if commands.title ~= nil or commands.id ~= nill then
+  if commands.title ~= nil or commands.id ~= nil then
     add_command(commands)
   else
     for _, command in pairs(commands) do
