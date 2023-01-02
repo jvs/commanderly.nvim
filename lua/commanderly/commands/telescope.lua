@@ -1,5 +1,5 @@
--- Note: Telescope lsp_references and lsp_document symbols are defined with the
--- other LSP commands in the file core.lua.
+local utils = require("commanderly.commands.utils")
+
 local commands = {
   {
     title = "Change colorscheme",
@@ -81,6 +81,22 @@ local commands = {
     desc = "Resume the previous search.",
     keywords = "back find",
     alias = "Telescope resume",
+  },
+  {
+    title = "View References",
+    id = "telescope_lsp_references",
+    desc = "View all the references to the symbol under the cursor.",
+    requires = utils.has_attached_lsp,
+    alias = "Telescope lsp_references",
+    keywords = "lsp telescope",
+  },
+  {
+    title = "View Symbols",
+    id = "telescope_lsp_document_symbols",
+    desc = "View all the symbols defined in the current file.",
+    requires = utils.has_attached_lsp,
+    alias = "Telescope lsp_document_symbols",
+    keywords = "lsp telescope",
   },
   {
     title = "Search Definitions",

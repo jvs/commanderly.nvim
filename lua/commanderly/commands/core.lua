@@ -1,37 +1,4 @@
-local function is_quickfix_open()
-  for _, info in pairs(vim.fn.getwininfo()) do
-    if info.quickfix == 1 then
-      return true
-    end
-  end
-  return false
-end
-
-local function is_loclist_open()
-  -- TODO: Figure out how to tell if the loclist is open for the current window.
-  local winid = vim.api.nvim_get_current_win()
-  local wininfo = vim.fn.getwininfo(winid)[1]
-  local tabnr = wininfo.tabnr
-  -- local wincol = vim.fn.wincol()
-  local wincol = wininfo.wincol
-  for _, info in pairs(vim.fn.getwininfo()) do
-    if info.loclist == 1 and info.tabnr == tabnr and info.wincol == wincol then
-      return true
-    end
-  end
-  return false
-end
-
-local function has_attached_lsp()
-  local filter = { bufnr = vim.fn.bufnr() }
-  local clients = vim.lsp.get_active_clients(filter)
-  local num_clients = #vim.tbl_keys(clients)
-  return num_clients > 0
-end
-
--- For now, assume diagnostics start out enabled.
--- TODO: Figure out how to detect if diagnostics are enabled.
-local are_diagnostics_enabled = true
+local utils = require("commanderly.commands.utils")
 
 local commands = {
   -- Buffers --
@@ -77,25 +44,17 @@ local commands = {
     id = "show_diagnostics",
     desc = "Show hints, warnings, and errors from language servers.",
     requires = function()
-      return not are_diagnostics_enabled
+      return not utils.are_diagnostics_enabled()
     end,
-    run = function()
-      are_diagnostics_enabled = true
-      vim.diagnostic.enable()
-    end,
+    run = utils.enable_diagnostics,
     keywords = "lsp",
   },
   {
     title = "Hide Diagnostics",
     id = "hide_diagnostics",
     desc = "Hide hints, warnings, and errors from language servers.",
-    requires = function()
-      return are_diagnostics_enabled
-    end,
-    run = function()
-      are_diagnostics_enabled = false
-      vim.diagnostic.disable()
-    end,
+    requires = utils.are_diagnostics_enabled,
+    run = utils.disable_diagnostics,
     keywords = "lsp",
   },
   {
@@ -103,8 +62,7 @@ local commands = {
     id = "next_diagnostic",
     desc = "Move the cursor to the next diagnostic in this file.",
     run = vim.diagnostic.goto_next,
-    requires = has_attached_lsp,
-    -- alias = "lua vim.diagnostic.goto_next()",
+    requires = utils.has_attached_lsp,
     keywords = "lsp",
   },
   {
@@ -112,8 +70,7 @@ local commands = {
     id = "previous_diagnostic",
     desc = "Move the cursor to the previous diagnostic in this file.",
     run = vim.diagnostic.goto_prev,
-    requires = has_attached_lsp,
-    -- alias = "lua vim.diagnostic.goto_prev()",
+    requires = utils.has_attached_lsp,
     keywords = "lsp",
   },
   {
@@ -121,7 +78,7 @@ local commands = {
     id = "diagnostic_open_float",
     desc = "Show diagnostics in a floating window.",
     run = vim.diagnostic.open_float,
-    requires = has_attached_lsp,
+    requires = utils.has_attached_lsp,
     keywords = "lsp",
   },
   {
@@ -129,7 +86,7 @@ local commands = {
     id = "diagnostic_setloclist",
     desc = "Add diagnostics for the current file to its location list.",
     run = vim.diagnostic.setloclist,
-    requires = has_attached_lsp,
+    requires = utils.has_attached_lsp,
     keywords = "lsp",
   },
 
@@ -176,7 +133,7 @@ local commands = {
     title = "Open Location Window",
     desc = "Open the loclist window for the current file.",
     requires = function()
-      return not is_loclist_open()
+      return not utils.is_loclist_open()
     end,
     alias = "lopen",
     keywords = "show",
@@ -184,9 +141,7 @@ local commands = {
   {
     title = "Close Location Window",
     desc = "Close the loclist window for the current file.",
-    requires = function()
-      return is_loclist_open()
-    end,
+    requires = utils.is_loclist_open,
     alias = "lclose",
     keywords = "hide",
   },
@@ -196,7 +151,7 @@ local commands = {
     title = "Format Current File",
     id = "lsp_format",
     desc = "Automatically format the current file.",
-    requires = has_attached_lsp,
+    requires = utils.has_attached_lsp,
     run = vim.lsp.buf.format,
     keywords = "lsp",
   },
@@ -204,7 +159,7 @@ local commands = {
     title = "Rename",
     id = "lsp_rename",
     desc = "Rename all references to the symbol under the cursor.",
-    requires = has_attached_lsp,
+    requires = utils.has_attached_lsp,
     run = vim.lsp.buf.rename,
     keywords = "lsp refactor",
   },
@@ -212,7 +167,7 @@ local commands = {
     title = "Code Action",
     id = "lsp_code_action",
     desc = "Select a code action available at the current cursor position.",
-    requires = has_attached_lsp,
+    requires = utils.has_attached_lsp,
     run = vim.lsp.buf.code_action,
     keywords = "lsp",
   },
@@ -220,25 +175,9 @@ local commands = {
     title = "Jump to Definition",
     id = "lsp_goto_definition",
     desc = "Jump to the definition of the symbol under the cursor.",
-    requires = has_attached_lsp,
+    requires = utils.has_attached_lsp,
     run = vim.lsp.buf.definition,
     keywords = "lsp",
-  },
-  {
-    title = "View References",
-    id = "telescope_lsp_references",
-    desc = "View all the references to the symbol under the cursor.",
-    requires = has_attached_lsp,
-    alias = "Telescope lsp_references",
-    keywords = "lsp telescope",
-  },
-  {
-    title = "View Symbols",
-    id = "telescope_lsp_document_symbols",
-    desc = "View all the symbols defined in the current file.",
-    requires = has_attached_lsp,
-    alias = "Telescope lsp_document_symbols",
-    keywords = "lsp telescope",
   },
   {
     title = "Show Hover Window",
@@ -248,7 +187,7 @@ local commands = {
       .. " floating window. Calling this function twice jumps into the"
       .. " floating window."
     ),
-    requires = has_attached_lsp,
+    requires = utils.has_attached_lsp,
     run = vim.lsp.buf.hover,
     keywords = "lsp",
   },
@@ -256,7 +195,7 @@ local commands = {
     title = "Show Signature Help",
     id = "lsp_signature_help",
     desc = "Display the signature of the symbol under the cursor.",
-    requires = has_attached_lsp,
+    requires = utils.has_attached_lsp,
     run = vim.lsp.buf.signature_help,
     keywords = "lsp",
   },
@@ -399,16 +338,14 @@ local commands = {
     title = "Open Quickfix Window",
     desc = "Open the quickfix window.",
     requires = function()
-      return not is_quickfix_open()
+      return not utils.is_quickfix_open()
     end,
     alias = "copen",
   },
   {
     title = "Close Quickfix Window",
     desc = "Close the quickfix window.",
-    requires = function()
-      return is_quickfix_open()
-    end,
+    requires = utils.is_quickfix_open,
     alias = "cclose",
   },
 
@@ -460,6 +397,31 @@ local commands = {
     id = "window_right",
     desc = "Move the cursor to the right window.",
     alias = "wincmd l",
+  },
+  {
+    title = "Close Other Windows",
+    id = "window_close_others",
+    desc = "Make the current window the only one on the screen.",
+    alias = "wincmd o",
+    keywords = "focus",
+  },
+  {
+    title = "Rotate Windows Right",
+    id = "window_rotate_right",
+    desc = "Rotate windows downwards and rightwards.",
+    alias = "wincmd r",
+  },
+  {
+    title = "Rotate Windows Left",
+    id = "window_rotate_left",
+    desc = "Rotate windows upwards and leftwards.",
+    alias = "wincmd R",
+  },
+  {
+    title = "Auto-Resize Windows",
+    id = "window_auto_resize",
+    desc = "Resize all windows to be roughly equally high and wide.",
+    alias = "wincmd =",
   },
 
   -- Tabs --
