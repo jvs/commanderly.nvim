@@ -1,3 +1,5 @@
+-- Note: Telescope lsp_references and lsp_document symbols are defined with the
+-- other LSP commands in the file core.lua.
 local commands = {
   {
     title = "Change colorscheme",

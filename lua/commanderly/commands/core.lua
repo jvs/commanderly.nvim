@@ -191,6 +191,76 @@ local commands = {
     keywords = "hide",
   },
 
+  -- LSP --
+  {
+    title = "Format Current File",
+    id = "lsp_format",
+    desc = "Automatically format the current file.",
+    requires = has_attached_lsp,
+    run = vim.lsp.buf.format,
+    keywords = "lsp",
+  },
+  {
+    title = "Rename",
+    id = "lsp_rename",
+    desc = "Rename all references to the symbol under the cursor.",
+    requires = has_attached_lsp,
+    run = vim.lsp.buf.rename,
+    keywords = "lsp refactor",
+  },
+  {
+    title = "Code Action",
+    id = "lsp_code_action",
+    desc = "Select a code action available at the current cursor position.",
+    requires = has_attached_lsp,
+    run = vim.lsp.buf.code_action,
+    keywords = "lsp",
+  },
+  {
+    title = "Jump to Definition",
+    id = "lsp_goto_definition",
+    desc = "Jump to the definition of the symbol under the cursor.",
+    requires = has_attached_lsp,
+    run = vim.lsp.buf.definition,
+    keywords = "lsp",
+  },
+  {
+    title = "View References",
+    id = "telescope_lsp_references",
+    desc = "View all the references to the symbol under the cursor.",
+    requires = has_attached_lsp,
+    alias = "Telescope lsp_references",
+    keywords = "lsp telescope",
+  },
+  {
+    title = "View Symbols",
+    id = "telescope_lsp_document_symbols",
+    desc = "View all the symbols defined in the current file.",
+    requires = has_attached_lsp,
+    alias = "Telescope lsp_document_symbols",
+    keywords = "lsp telescope",
+  },
+  {
+    title = "Show Hover Window",
+    id = "lsp_hover",
+    desc = (
+      "Display hover information about the symbol under the cursor in a"
+      .. " floating window. Calling this function twice jumps into the"
+      .. " floating window."
+    ),
+    requires = has_attached_lsp,
+    run = vim.lsp.buf.hover,
+    keywords = "lsp",
+  },
+  {
+    title = "Show Signature Help",
+    id = "lsp_signature_help",
+    desc = "Display the signature of the symbol under the cursor.",
+    requires = has_attached_lsp,
+    run = vim.lsp.buf.signature_help,
+    keywords = "lsp",
+  },
+
   -- Options --
   {
     id = "toggle_cursor_line",
