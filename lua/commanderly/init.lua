@@ -232,19 +232,19 @@ local function render_keymapping(keymapping)
   return result
 end
 
-
 local function render_shortcut(command)
   local shortcut = render_keymapping(command.keymapping)
 
   if shortcut ~= nil then
     return shortcut
-  end
-
-  if type(command.alias) == "string" then
+  elseif type(command.alias) == "string" then
     return ":" .. command.alias
+  elseif type(command.run) == "string" then
+    return command.run
   end
-end
 
+  return nil
+end
 
 local function render(command)
   -- Look up the keymapping before rendering the command.
