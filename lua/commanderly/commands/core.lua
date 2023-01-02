@@ -7,6 +7,10 @@ local function is_quickfix_open()
   return false
 end
 
+-- For now, assume diagnostics start out enabled.
+-- TODO: Figure out how to detect if diagnostics are enabled.
+local are_diagnostics_enabled = true
+
 local commands = {
   -- Buffers --
   {
@@ -51,6 +55,34 @@ local commands = {
     alias = "source $MYVIMRC | PackerSync",
     requires = "packer",
     keywords = "packer sync",
+  },
+
+  -- Diagnostics --
+  {
+    title = "Show Diagnostics",
+    id = "show_diagnostics",
+    desc = "Show hints, warnings, and errors from language servers.",
+    requires = function()
+      return not are_diagnostics_enabled
+    end,
+    run = function()
+      are_diagnostics_enabled = true
+      vim.diagnostic.enable()
+    end,
+    keywords = "lsp",
+  },
+  {
+    title = "Hide Diagnostics",
+    id = "hide_diagnostics",
+    desc = "Hide hints, warnings, and errors from language servers.",
+    requires = function()
+      return are_diagnostics_enabled
+    end,
+    run = function()
+      are_diagnostics_enabled = false
+      vim.diagnostic.disable()
+    end,
+    keywords = "lsp",
   },
 
   -- Files --
