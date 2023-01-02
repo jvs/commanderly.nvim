@@ -128,6 +128,15 @@ local commands = {
     end,
     requires = "vscode",
   },
+
+  -- Add format command.
+  {
+    title = "Format Current File",
+    desc = "Automatically format the current file.",
+    mode = "n",
+    keywords = "lsp",
+    alias = "Format",
+  },
 }
 
 return commands
