@@ -227,6 +227,7 @@ local commands = {
     id = "retab",
     desc = "Replace all tabs with spaces, using the current value of tabstop.",
     mode = "n",
+    keywords = "retab",
     alias = "retab",
     -- TODO: Maybe have a prompt that asks for the value of tabstop.
   },
