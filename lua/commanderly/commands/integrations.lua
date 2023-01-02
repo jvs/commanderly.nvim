@@ -9,7 +9,7 @@ local commands = {
     end,
     requires = function()
       -- TODO: Find out if there's a better way to tell if lualine is visible.
-      lualine_ok, _ = pcall(require, "lualine")
+      local lualine_ok, _ = pcall(require, "lualine")
       return lualine_ok and string.find(vim.o.statusline, "lualine")
     end,
     keywords = "lualine",
@@ -23,7 +23,7 @@ local commands = {
     end,
     requires = function()
       -- TODO: Find out if there's a better way to tell if lualine is visible.
-      lualine_ok, _ = pcall(require, "lualine")
+      local lualine_ok, _ = pcall(require, "lualine")
       return lualine_ok and not string.find(vim.o.statusline, "lualine")
     end,
     keywords = "lualine",
