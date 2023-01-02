@@ -25,6 +25,15 @@ local commands = {
     alias = "source $MYVIMRC",
     keywords = "source vimrc",
   },
+  {
+    title = "Update Plugins",
+    id = "packer_sync",
+    desc = "Source vimrc and run PackerSync",
+    mode = "n",
+    alias = "source $MYVIMRC | PackerSync",
+    requires = "packer",
+    keywords = "packer sync",
+  },
 
   -- Options --
   {
