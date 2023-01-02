@@ -182,9 +182,7 @@ local function has_requirement(requirement)
 end
 
 local function is_available(command)
-  if command == nil then
-    return false
-  elseif command.hidden then
+  if command == nil or command.title == nil or command.hidden then
     return false
   elseif not has_requirement(command.requires) then
     return false
