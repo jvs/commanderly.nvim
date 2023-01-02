@@ -1,3 +1,12 @@
+local function is_quickfix_open()
+  for _, info in pairs(vim.fn.getwininfo()) do
+    if info.quickfix == 1 then
+      return true
+    end
+  end
+  return false
+end
+
 local commands = {
   -- Buffers --
   {
@@ -195,6 +204,24 @@ local commands = {
       vim.cmd('let @" = expand("%")')
       print('Yanked "' .. vim.fn.expand("%") .. '"')
     end,
+  },
+
+  -- Quickfix --
+  {
+    title = "Open Quickfix Window",
+    desc = "Open the quickfix window.",
+    requires = function()
+      return not is_quickfix_open()
+    end,
+    alias = "copen",
+  },
+  {
+    title = "Close Quickfix Window",
+    desc = "Close the quickfix window.",
+    requires = function()
+      return is_quickfix_open()
+    end,
+    alias = "cclose",
   },
 
   -- Splits --
