@@ -9,6 +9,8 @@ local command_list = {}
 -- A table of all the keymappings.
 local keymappings = {}
 
+local previous_command = nil
+
 local function create_key(s)
   return s:gsub("[^a-zA-Z0-9_]", "_"):lower()
 end
@@ -116,9 +118,23 @@ local function get_command_or_fail(s)
 end
 
 function M.run(command)
+  local original_command = command
+
   if type(command) == "string" then
     command = get_command_or_fail(command)
   end
+
+  -- If this is the special "commanderly_repeat" command, then repeat the last
+  -- command (or exit if we don't have one yet).
+  if command.id == "commanderly_repeat" then
+    if previous_command ~= nil then
+      M.run(previous_command)
+    end
+    return
+  end
+
+  -- Update our global variable tracking the previous command.
+  previous_command = original_command
 
   local run = command.run
 

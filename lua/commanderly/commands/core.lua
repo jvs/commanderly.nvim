@@ -18,13 +18,32 @@ local commands = {
   -- Commands --
   {
     title = "Open Command Editor",
+    id = "q:",
     desc = "Edit a command in a special command-line window.",
     run = { keys = "q:", mode = "n" },
   },
   {
     title = "Open Search Editor",
+    id = "q/",
     desc = "Edit a search string in a special command-line window.",
     run = { keys = "q/", mode = "n" },
+  },
+  {
+    title = "Repeat Last Edit",
+    id = ".",
+    desc = "Repeat the last change.",
+    run = { keys = ".", mode = "n" },
+  },
+  {
+    title = "Repeat Last Command",
+    id = "@:",
+    desc = "Repeat the last command-line.",
+    run = { keys = "@:", mode = "n" },
+  },
+  {
+    title = "Repeat Last Choice",
+    id = "commanderly_repeat",
+    desc = "Repeat the last command selected from the command palette.",
   },
 
   -- Configuration --
