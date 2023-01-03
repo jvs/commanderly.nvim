@@ -1,4 +1,4 @@
-local utils = require("commanderly.commands.utils")
+local utils = require("commanderly.utils")
 
 local commands = {
   -- Commands --
