@@ -120,18 +120,17 @@ function M.run(command)
     command = get_command_or_fail(command)
   end
 
-  local alias = command.alias
   local run = command.run
 
   if type(run) == "function" then
     run()
   elseif type(run) == "string" then
-    local keys = vim.api.nvim_replace_termcodes(run, true, false, true)
-    vim.api.nvim_feedkeys(keys, "t", true)
-  elseif type(alias) == "string" then
-    vim.cmd(alias)
+    vim.cmd(run)
+  elseif type(run) == "table" then
+    local keys = vim.api.nvim_replace_termcodes(run.keys, true, false, true)
+    vim.api.nvim_feedkeys(keys, run.mode or "n", false)
   else
-    error('Invalid command. Expected "alias" or "run", received: ' .. command)
+    error('Invalid command. Received: ' .. vim.inspect(command))
   end
 end
 
@@ -187,11 +186,11 @@ local function is_available(command)
     return false
   elseif not has_requirement(command.requires) then
     return false
-  elseif command.alias ~= nil then
-    local head = command.alias:gsub("%s.*", "")
-    local has_alias = vim.fn.exists(":" .. head) > 0
+  elseif type(command.run) == "string" then
+    local head = command.run:gsub("%s.*", "")
+    local has_command = vim.fn.exists(":" .. head) > 0
 
-    if not has_alias then
+    if not has_command then
       return false
     end
   end
@@ -229,7 +228,7 @@ local function render_keymapping(keymapping)
   return result
 end
 
-local function render_alias(s)
+local function render_command_string(s)
   local wincmd = "wincmd "
   if s:sub(1, string.len(wincmd)) == wincmd then
     return "ctrl+w,ctrl+" .. s:sub(string.len(wincmd) + 1)
@@ -243,11 +242,10 @@ local function render_shortcut(command)
 
   if shortcut ~= nil then
     return shortcut
-  elseif type(command.alias) == "string" then
-    return render_alias(command.alias)
-    -- return ":" .. command.alias
   elseif type(command.run) == "string" then
-    return command.run
+    return render_command_string(command.run)
+  elseif type(command.run) == "table" then
+    return command.run.keys
   end
 
   return nil

@@ -32,7 +32,7 @@ local commands = {
     title = "Toggle Undotree",
     id = "undotree",
     desc = "View or hide the undotree for the current file.",
-    alias = "UndotreeToggle",
+    run = "UndotreeToggle",
   },
 
   -- Add command to toggle comments.
@@ -50,21 +50,21 @@ local commands = {
     title = "Toggle Filesystem Explorer",
     id = "neotree_filesystem",
     desc = "Open a file browser and reveal the current file.",
-    alias = "Neotree reveal toggle",
+    run = "Neotree reveal toggle",
     keywords = "neo-tree",
   },
   {
     title = "Toggle Buffer Explorer",
     id = "neotree_buffers",
     desc = "Open a tree explorer of the current buffers.",
-    alias = "Neotree buffers toggle",
+    run = "Neotree buffers toggle",
     keywords = "neo-tree",
   },
   {
     title = "Toggle Git Status Explorer",
     id = "neotree_git_status",
     desc = "Open a tree explorer of the current git status.",
-    alias = "Neotree git_status toggle",
+    run = "Neotree git_status toggle",
     keywords = "neo-tree",
   },
 
@@ -72,7 +72,7 @@ local commands = {
   {
     title = "Toggle Zen-Mode",
     desc = "Toggle zen-mode.",
-    alias = "ZenMode",
+    run = "ZenMode",
   },
 
   -- Add commands to toggle true zen-modes.
@@ -80,20 +80,20 @@ local commands = {
     title = "Focus Current Window",
     desc = "Toggle zen-mode for focusing on the current window.",
     keywords = "zen mode focus",
-    alias = "TZFocus",
+    run = "TZFocus",
     -- TODO: Add a requirement that there's more than one window.
   },
   {
     title = "Toggle Extra UI Elements",
     desc = "Hide or show extra UI elements like line numbers and the statusline.",
     keywords = "zen mode minimalist",
-    alias = "TZMinimalist",
+    run = "TZMinimalist",
   },
   {
     title = "Toggle True Zen-Mode",
     desc = "Toggle zen-mode.",
     keywords = "zen mode ataraxis",
-    alias = "TZAtaraxis",
+    run = "TZAtaraxis",
   },
 
   -- Add commands to switch vscode colorschemes.

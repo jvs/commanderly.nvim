@@ -6,25 +6,25 @@ local commands = {
     title = "Show Next Buffer",
     id = "next_buffer",
     desc = "Show the next buffer in the current view.",
-    alias = "bnext",
+    run = "bnext",
   },
   {
     title = "Show Previous Buffer",
     id = "previous_buffer",
     desc = "Show the previous buffer in the current view.",
-    alias = "bprevious",
+    run = "bprevious",
   },
 
   -- Commands --
   {
     title = "Open Command Editor",
     desc = "Edit a command in a special command-line window.",
-    run = "q:",
+    run = { keys = "q:", mode = "n" },
   },
   {
     title = "Open Search Editor",
     desc = "Edit a search string in a special command-line window.",
-    run = "q/",
+    run = { keys = "q/", mode = "n" },
   },
 
   -- Configuration --
@@ -34,7 +34,7 @@ local commands = {
     desc = function()
       return ":source " .. os.getenv("MYVIMRC")
     end,
-    alias = "source $MYVIMRC",
+    run = "source $MYVIMRC",
     keywords = "source vimrc",
   },
 
@@ -94,38 +94,38 @@ local commands = {
   {
     title = "New File",
     desc = "Create new untitled file.",
-    alias = "enew",
+    run = "enew",
   },
   {
     title = "Reload Current File",
     desc = "Reload the current file from the disk.",
-    alias = "edit",
+    run = "edit",
   },
   {
     title = "Revert File",
     desc = "Discard current changes and reload the current file from the disk.",
-    alias = "edit!",
+    run = "edit!",
   },
   {
     title = "Close Current File",
     desc = "Close the current file.",
-    alias = "bd",
+    run = "bd",
   },
   {
     title = "Discard Current File",
     desc = "Close the current file without saving any changes.",
-    alias = "bd!",
+    run = "bd!",
     keywords = "close without saving",
   },
   {
     title = "Close All Files",
     desc = "Close all of the currently open files.",
-    alias = "%bd",
+    run = "%bd",
   },
   {
     title = "Save Current File",
     desc = "Write the current file to disk.",
-    alias = "write",
+    run = "write",
   },
 
   -- Location List --
@@ -135,14 +135,14 @@ local commands = {
     requires = function()
       return not utils.is_loclist_open()
     end,
-    alias = "lopen",
+    run = "lopen",
     keywords = "show",
   },
   {
     title = "Close Location Window",
     desc = "Close the loclist window for the current file.",
     requires = utils.is_loclist_open,
-    alias = "lclose",
+    run = "lclose",
     keywords = "hide",
   },
 
@@ -340,13 +340,13 @@ local commands = {
     requires = function()
       return not utils.is_quickfix_open()
     end,
-    alias = "copen",
+    run = "copen",
   },
   {
     title = "Close Quickfix Window",
     desc = "Close the quickfix window.",
     requires = utils.is_quickfix_open,
-    alias = "cclose",
+    run = "cclose",
   },
 
   -- Splits --
@@ -354,74 +354,74 @@ local commands = {
     title = "Split Window Horizontally",
     id = "horizontal_split",
     desc = "Split the current window horizontally.",
-    alias = "sp",
+    run = "sp",
   },
   {
     title = "Split Window Vertically",
     id = "vertical_split",
     desc = "Split the current window vertically.",
-    alias = "vsp",
+    run = "vsp",
   },
   {
     title = "Close Window",
     desc = "Close the current window.",
-    alias = "quit",
+    run = "quit",
     keywords = "quit",
   },
   {
     title = "Close Window (without saving)",
     desc = "Close the current window without saving any changes.",
-    alias = "quit!",
+    run = "quit!",
     keywords = "quit",
   },
   {
     title = "Move to Left Window",
     id = "window_left",
     desc = "Move the cursor to the left window.",
-    alias = "wincmd h",
+    run = "wincmd h",
   },
   {
     title = "Move to Lower Window",
     id = "window_down",
     desc = "Move the cursor to the lower window.",
-    alias = "wincmd j",
+    run = "wincmd j",
   },
   {
     title = "Move to Upper Window",
     id = "window_up",
     desc = "Move the cursor to the upper window.",
-    alias = "wincmd k",
+    run = "wincmd k",
   },
   {
     title = "Move to Right Window",
     id = "window_right",
     desc = "Move the cursor to the right window.",
-    alias = "wincmd l",
+    run = "wincmd l",
   },
   {
     title = "Close Other Windows",
     id = "window_close_others",
     desc = "Make the current window the only one on the screen.",
-    alias = "wincmd o",
+    run = "wincmd o",
     keywords = "focus",
   },
   {
     title = "Rotate Windows Right",
     id = "window_rotate_right",
     desc = "Rotate windows downwards and rightwards.",
-    alias = "wincmd r",
+    run = "wincmd r",
   },
   {
     title = "Rotate Windows Left",
     id = "window_rotate_left",
     desc = "Rotate windows upwards and leftwards.",
-    alias = "wincmd R",
+    run = "wincmd R",
   },
   {
     title = "Auto-Resize Windows",
     id = "window_auto_resize",
     desc = "Resize all windows to be roughly equally high and wide.",
-    alias = "wincmd =",
+    run = "wincmd =",
   },
 
   -- Tabs --
@@ -430,7 +430,7 @@ local commands = {
     id = "retab",
     desc = "Replace all tabs with spaces, using the current value of tabstop.",
     keywords = "retab",
-    alias = "retab",
+    run = "retab",
     -- TODO: Maybe have a prompt that asks for the value of tabstop.
   },
 }
