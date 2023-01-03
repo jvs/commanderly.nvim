@@ -103,6 +103,29 @@ function M.map(keys, command, opts)
   end
 end
 
+function M.define_command(name, command, opts)
+  opts = vim.deepcopy(opts or {})
+
+  if opts.desc == nil then
+    local command_info
+    if type(command) == "string" then
+      command_info = M.get_command(command)
+    else
+      command_info = command
+    end
+
+    if command_info ~= nil then
+      opts.desc = command_info.desc
+    end
+  end
+
+  local run = function()
+    M.run(command)
+  end
+
+  vim.api.nvim_create_user_command(name, run, opts)
+end
+
 function M.get_command(s)
   return command_index[create_key(s)]
 end
