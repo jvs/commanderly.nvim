@@ -95,6 +95,26 @@ local commands = {
     keywords = "lsp",
   },
 
+  -- Editing --
+  {
+    title = "Delete Current Line",
+    id = "dd",
+    desc = "Delete the line currently under the cursor.",
+    run = { keys = "dd", mode = "n" },
+  },
+  {
+    title = "Undo Last Change",
+    id = "u",
+    desc = "Undo the last change.",
+    run = { keys = "u", mode = "n" },
+  },
+  {
+    title = "Redo Change",
+    id = "<c-r>",
+    desc = "Redo one change which was undone.",
+    run = { keys = "<C-R>", mode = "n" },
+  },
+
   -- Files --
   {
     title = "New File",
