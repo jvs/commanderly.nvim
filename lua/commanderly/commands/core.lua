@@ -1,20 +1,6 @@
 local utils = require("commanderly.commands.utils")
 
 local commands = {
-  -- Buffers --
-  {
-    title = "Show Next Buffer",
-    id = "next_buffer",
-    desc = "Show the next buffer in the current view.",
-    run = "bnext",
-  },
-  {
-    title = "Show Previous Buffer",
-    id = "previous_buffer",
-    desc = "Show the previous buffer in the current view.",
-    run = "bprevious",
-  },
-
   -- Commands --
   {
     title = "Open Command Editor",
@@ -145,6 +131,18 @@ local commands = {
     title = "Save Current File",
     desc = "Write the current file to disk.",
     run = "write",
+  },
+  {
+    title = "Show Next File",
+    id = "next_buffer",
+    desc = "Show the next buffer in the current view.",
+    run = "bnext",
+  },
+  {
+    title = "Show Previous File",
+    id = "previous_buffer",
+    desc = "Show the previous buffer in the current view.",
+    run = "bprevious",
   },
 
   -- Location List --
@@ -366,6 +364,29 @@ local commands = {
     desc = "Close the quickfix window.",
     requires = utils.is_quickfix_open,
     run = "cclose",
+  },
+
+  -- Search --
+  {
+    title = "Find Current Word",
+    id = "*",
+    desc = "Search for the word nearest to the cursor.",
+    run = { keys = "*", mode = "n" },
+    keywords = "search",
+  },
+  {
+    title = "Find Next",
+    id = "find_next",
+    desc = "Repeat the last search and go to the next result.",
+    run = { keys = "n", mode = "n" },
+    keywords = "search",
+  },
+  {
+    title = "Find Previous",
+    id = "find_previous",
+    desc = "Repeat the last search and go to the previous result.",
+    run = { keys = "N", mode = "n" },
+    keywords = "search",
   },
 
   -- Splits --
