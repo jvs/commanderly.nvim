@@ -11,7 +11,7 @@ end
 
 function M.is_loclist_open()
   -- TODO: Figure out how to tell if the loclist is open for the current window.
-  local winid = vim.api.nvim_get_current_win()
+  local winid = vim.fn.win_getid()
   local wininfo = vim.fn.getwininfo(winid)[1]
   local tabnr = wininfo.tabnr
   -- local wincol = vim.fn.wincol()
