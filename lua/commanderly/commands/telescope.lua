@@ -37,7 +37,7 @@ local commands = {
   },
   {
     title = "Find Repository Files",
-    is = "telescope_git_files",
+    id = "telescope_git_files",
     desc = "Search for files in the current git repository.",
     keywords = "git",
     run = "Telescope git_files",
