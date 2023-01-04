@@ -173,7 +173,7 @@ function M.run(command)
   end
 end
 
-function M.setup(opts)
+local function load_default_commands()
   local modules = {
     "core",
     "integrations",
@@ -183,6 +183,13 @@ function M.setup(opts)
   for _, name in pairs(modules) do
     local module_name = "commanderly.commands." .. name
     M.add_commands(require(module_name))
+  end
+end
+
+function M.setup(opts)
+  if vim.g.loaded_commanderly_commands ~= 1 then
+    load_default_commands()
+    vim.g.loaded_commanderly_commands = 1
   end
 
   require("telescope").load_extension("commanderly")
