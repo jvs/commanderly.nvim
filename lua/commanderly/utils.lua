@@ -39,12 +39,12 @@ function M.are_diagnostics_enabled()
   return diagnostics_enabled
 end
 
-function M.hide_diagnostics()
+function M.disable_diagnostics()
   diagnostics_enabled = false
   vim.diagnostic.disable()
 end
 
-function M.show_diagnostics()
+function M.enable_diagnostics()
   diagnostics_enabled = true
   vim.diagnostic.enable()
 end
