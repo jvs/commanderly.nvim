@@ -10,18 +10,9 @@ function M.is_quickfix_open()
 end
 
 function M.is_loclist_open()
-  -- TODO: Figure out how to tell if the loclist is open for the current window.
-  local winid = vim.fn.win_getid()
-  local wininfo = vim.fn.getwininfo(winid)[1]
-  local tabnr = wininfo.tabnr
-  -- local wincol = vim.fn.wincol()
-  local wincol = wininfo.wincol
-  for _, info in pairs(vim.fn.getwininfo()) do
-    if info.loclist == 1 and info.tabnr == tabnr and info.wincol == wincol then
-      return true
-    end
-  end
-  return false
+  -- When the first argument is zero, it uses the current window.
+  local winid = vim.fn.getloclist(0, { winid = 0 }).winid
+  return winid ~= 0
 end
 
 function M.has_attached_lsp()
