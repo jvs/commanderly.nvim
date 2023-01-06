@@ -173,14 +173,14 @@ local commands = {
       return not utils.is_loclist_open()
     end,
     run = "lopen",
-    keywords = "show",
+    keywords = "show loclist",
   },
   {
     title = "Close Location Window",
     desc = "Close the loclist window for the current file.",
     requires = utils.is_loclist_open,
     run = "lclose",
-    keywords = "hide",
+    keywords = "hide loclist",
   },
 
   -- LSP --
