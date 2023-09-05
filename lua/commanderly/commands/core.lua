@@ -268,8 +268,8 @@ local commands = {
           title = "Hide Line Numbers",
           desc = "Do not show line numbers.",
           run = function()
-            vim.wo.number = false
-            vim.wo.relativenumber = false
+            utils.set_for_all_normal_windows('number', false)
+            utils.set_for_all_normal_windows('relativenumber', false)
           end,
         }
       else
@@ -278,6 +278,8 @@ local commands = {
           desc = "Show line numbers.",
           run = function()
             vim.wo.number = true
+            utils.set_for_all_normal_windows('number', true)
+            utils.set_for_all_normal_windows('relativenumber', false)
           end,
         }
       end
@@ -291,8 +293,8 @@ local commands = {
           title = "Disable Relative Line Numbers",
           desc = "Use absolute line numbers.",
           run = function()
-            vim.wo.number = true
-            vim.wo.relativenumber = false
+            utils.set_for_all_normal_windows('number', true)
+            utils.set_for_all_normal_windows('relativenumber', false)
           end,
         }
       else
@@ -300,7 +302,8 @@ local commands = {
           title = "Show Relative Line Numbers",
           desc = "Use relative line numbers.",
           run = function()
-            vim.wo.relativenumber = true
+            utils.set_for_all_normal_windows('number', true)
+            utils.set_for_all_normal_windows('relativenumber', true)
           end,
         }
       end

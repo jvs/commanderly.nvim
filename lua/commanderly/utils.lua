@@ -40,4 +40,12 @@ function M.enable_diagnostics()
   vim.diagnostic.enable()
 end
 
+function M.set_for_all_normal_windows(name, value)
+  for _, info in pairs(vim.fn.getwininfo()) do
+    if info.loclist ~= 1 and info.quickfix ~= 1 and info.terminal ~= 1 then
+      vim.api.nvim_win_set_option(info.winid, name, value)
+    end
+  end
+end
+
 return M
