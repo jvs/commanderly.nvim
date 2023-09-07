@@ -102,7 +102,7 @@ local commands = {
     desc = "Use the dark VSCode colorscheme",
     keywords = "color scheme theme",
     run = function()
-      require("vscode").change_style("dark")
+      require("vscode").load("dark")
     end,
     requires = "vscode",
   },
@@ -111,7 +111,7 @@ local commands = {
     desc = "Use the light VSCode colorscheme",
     keywords = "color scheme theme",
     run = function()
-      require("vscode").change_style('light')
+      require("vscode").load('light')
     end,
     requires = "vscode",
   },
