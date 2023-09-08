@@ -92,6 +92,13 @@ local commands = {
     run = { keys = "dd", mode = "n" },
   },
   {
+    title = "Make Uppercase",
+    id = "U",
+    desc = "Convert selected text to uppercase.",
+    visual_mode = true,
+    run = { keys = "U", mode = "n" },
+  },
+  {
     title = "Undo Last Change",
     id = "u",
     desc = "Undo the last change.",
@@ -339,9 +346,6 @@ local commands = {
     desc = "Copy the absolute path of the current file to the clipboard.",
     run = function()
       vim.cmd("let @+ = expand('%:p')")
-      -- TODO: Figure out how to display this even when Telescope was in insert
-      -- mode when this command was selected. (This comment applies to all
-      -- commands that try to print messages.)
       print('Copied "' .. vim.fn.expand("%:p") .. '" to the clipboard.')
     end,
   },

@@ -11,6 +11,18 @@ local keymappings = {}
 
 local previous_command = nil
 
+local initial_mode = nil
+local initial_selection = nil
+
+local function is_visual_mode(mode)
+  return mode == "v" or mode == "V" or mode == "\22"
+end
+
+local function in_visual_mode()
+  local modeInfo = vim.api.nvim_get_mode()
+  return is_visual_mode(modeInfo.mode)
+end
+
 local function create_key(s)
   return s:gsub("[^a-zA-Z0-9_]", "_"):lower()
 end
@@ -156,6 +168,21 @@ function M.run(command)
     return
   end
 
+  if command.visual_mode and not in_visual_mode() and initial_selection ~= nil then
+    -- Return the cursor to the start of the selection.
+    vim.fn.setpos('.', initial_selection.v)
+
+    -- Return to our initial mode.
+    vim.api.nvim_feedkeys(initial_mode, "n", false)
+
+    -- Move the cursor back to where it was.
+    vim.schedule_wrap(vim.fn.setpos)('.', initial_selection.cursor)
+
+    -- Run the command again (but this time we'll be in a visual mode).
+    vim.schedule_wrap(M.run)(command)
+    return
+  end
+
   -- Update our global variable tracking the previous command.
   previous_command = original_command
 
@@ -195,8 +222,16 @@ function M.setup(opts)
   require("telescope").load_extension("commanderly")
 end
 
-function M.open(line1, line2)
-  -- TODO: Pass line1 and line2 to commanderly extension.
+function M.open()
+  local modeInfo = vim.api.nvim_get_mode()
+  initial_mode = modeInfo.mode
+
+  if is_visual_mode(initial_mode) then
+    initial_selection = {v = vim.fn.getpos('v'), cursor = vim.fn.getcurpos()}
+  else
+    initial_selection = nil
+  end
+
   require("telescope").extensions.commanderly.commanderly()
 end
 
@@ -228,6 +263,10 @@ local function has_requirement(requirement)
 end
 
 local function is_available(command)
+  if command.visual_mode and not in_visual_mode() then
+    return false
+  end
+
   if command == nil or command.title == nil or command.hidden then
     return false
   elseif not has_requirement(command.requires) then
