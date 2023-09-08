@@ -32,17 +32,6 @@ local commands = {
     desc = "Repeat the last command selected from the command palette.",
   },
 
-  -- Configuration --
-  {
-    title = "Reload Neovim Configuration",
-    id = "source_vimrc",
-    desc = function()
-      return ":source " .. os.getenv("MYVIMRC")
-    end,
-    run = "source $MYVIMRC",
-    keywords = "source vimrc",
-  },
-
   -- Diagnostics --
   {
     title = "Show Diagnostics",
