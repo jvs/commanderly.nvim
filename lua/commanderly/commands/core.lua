@@ -226,6 +226,14 @@ local commands = {
     keywords = "lsp",
   },
 
+  -- Messages --
+  {
+    title = "Open Messages Window",
+    id = "open_messages_window",
+    desc = "Open a window for viewing recent messages.",
+    run = "messages",
+  },
+
   -- Options --
   {
     id = "toggle_cursor_line",
