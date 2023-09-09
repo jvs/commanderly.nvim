@@ -36,5 +36,4 @@ function M.setup(opts)
   require("telescope").load_extension("commanderly")
 end
 
-
 return M
