@@ -168,7 +168,7 @@ function M.run(command)
     return
   end
 
-  if command.visual_mode and not in_visual_mode() and initial_selection ~= nil then
+  if initial_selection ~= nil and not in_visual_mode() then
     -- Return the cursor to the start of the selection.
     vim.fn.setpos('.', initial_selection.v)
 
@@ -263,10 +263,6 @@ local function has_requirement(requirement)
 end
 
 local function is_available(command)
-  if command.visual_mode and not in_visual_mode() then
-    return false
-  end
-
   if command == nil or command.title == nil or command.hidden then
     return false
   elseif not has_requirement(command.requires) then
@@ -280,7 +276,24 @@ local function is_available(command)
     end
   end
 
-  return true
+  -- If the command doesn't specify any modes, then it's always available.
+  if command.modes == nil then
+    return true
+  end
+
+  -- Otherwise, see if the command's mode works with our intial mode.
+  for _, mode in ipairs(command.modes) do
+    if (
+      (mode == initial_mode)
+      or (mode == "visual" and is_visual_mode(initial_mode))
+      or (mode == "normal" and initial_mode == "n")
+    ) then
+      return true
+    end
+  end
+
+  -- We couldn't find a match, so don't make this command available.
+  return false
 end
 
 local function get_keymapping(command)

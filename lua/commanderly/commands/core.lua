@@ -86,17 +86,17 @@ local commands = {
 
   -- Editing --
   {
+    title = "Convert Selection to Uppercase",
+    id = "U",
+    desc = "Convert selected text to uppercase.",
+    modes = {"visual"},
+    run = { keys = "U", mode = "n" },
+  },
+  {
     title = "Delete Current Line",
     id = "dd",
     desc = "Delete the line currently under the cursor.",
     run = { keys = "dd", mode = "n" },
-  },
-  {
-    title = "Make Uppercase",
-    id = "U",
-    desc = "Convert selected text to uppercase.",
-    visual_mode = true,
-    run = { keys = "U", mode = "n" },
   },
   {
     title = "Undo Last Change",
