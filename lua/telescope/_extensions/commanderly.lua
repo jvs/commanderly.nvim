@@ -43,37 +43,19 @@ local user_opts = {
   -- winblend = 10,
 }
 
-
 local make_finder = function(opts, commands)
-  local title_width = 0
-  local desc_width = 0
-  local keys_width = 0
-
-  local padding = 4
-  local max_title_width = 40
-  local max_keys_width = 10
-  local expected_width = 108
-
   local results = {}
 
-  for _, command in pairs(commands) do
+  for _, command in ipairs(commands) do
     table.insert(results, command)
-    local next_title_width = strings.strdisplaywidth(command.title or "")
-    local next_keys_width = strings.strdisplaywidth(command.keymapping or "")
-    title_width = math.max(title_width, next_title_width)
-    keys_width = math.max(keys_width, next_keys_width)
   end
-
-  title_width = math.min(title_width + padding, max_title_width)
-  keys_width = math.min(keys_width, max_keys_width)
-  desc_width = expected_width - title_width - keys_width - 10
 
   local displayer = entry_display.create {
     separator = " ",
     items = {
-      { width = title_width },
-      { width = desc_width },
-      { width = keys_width },
+      { width = 33 },
+      { width = 55 },
+      { width = 15 },
     }
   }
 

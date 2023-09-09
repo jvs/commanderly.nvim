@@ -4,30 +4,30 @@ return {
   -- Commands --
   {
     title = "Open Command Editor",
-    id = "q:",
+    id = "open_command_line_window",
     desc = "Edit a command in a special command-line window.",
     run = { keys = "q:" },
   },
   {
     title = "Open Search Editor",
-    id = "q/",
+    id = "open_command_line_search_window",
     desc = "Edit a search string in a special command-line window.",
     run = { keys = "q/" },
   },
   {
     title = "Repeat Last Edit",
-    id = ".",
+    id = "repeat_last_change",
     desc = "Repeat the last change.",
     run = { keys = "." },
   },
   {
-    title = "Repeat Last Command",
-    id = "@:",
+    title = "Repeat Last Command Line",
+    id = "repeat_last_command_line",
     desc = "Repeat the last command-line.",
     run = { keys = "@:" },
   },
   {
-    title = "Repeat Last Choice",
+    title = "Repeat Last Commanderly Command",
     id = "commanderly_repeat",
     desc = "Repeat the last command selected from the command palette.",
   },
@@ -182,7 +182,7 @@ return {
   },
   {
     title = "Redo Change",
-    id = "<c-r>",
+    id = "redo_change",
     desc = "Redo one change which was undone.",
     run = { keys = "<C-R>" },
   },
@@ -480,7 +480,7 @@ return {
   -- Search --
   {
     title = "Find Current Word",
-    id = "*",
+    id = "find_current_word",
     desc = "Search for the word nearest to the cursor.",
     run = { keys = "*" },
     keywords = "search",
