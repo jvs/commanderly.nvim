@@ -1,10 +1,26 @@
 local commands = {
   -- Add commands to toggle lualine.
   {
+    title = "Hide Lualine",
+    desc = "Hide the lualine plugin.",
+    run = function()
+      require("lualine").hide()
+    end,
+    requires = function()
+      -- TODO: Find out if there's a better way to tell if lualine is visible.
+      local lualine_ok, _ = pcall(require, "lualine")
+      return lualine_ok and (
+        string.find(vim.o.statusline, "lualine")
+        or string.find(vim.o.winbar, "lualine")
+      )
+    end,
+    keywords = "lualine",
+  },
+  {
     title = "Hide Status Line",
     desc = "Hide the lualine statusline.",
     run = function()
-      require("lualine").hide()
+      require("lualine").hide({place = {"statusline"}, unhide = false})
     end,
     requires = function()
       -- TODO: Find out if there's a better way to tell if lualine is visible.
@@ -14,15 +30,58 @@ local commands = {
     keywords = "lualine",
   },
   {
+    title = "Hide Winbar",
+    desc = "Hide the lualine winbar.",
+    run = function()
+      require("lualine").hide({place = {"winbar"}, unhide = false})
+    end,
+    requires = function()
+      -- TODO: Find out if there's a better way to tell if lualine is visible.
+      local lualine_ok, _ = pcall(require, "lualine")
+      return lualine_ok and string.find(vim.o.winbar, "lualine")
+    end,
+    keywords = "lualine",
+  },
+
+  {
+    title = "Show Lualine",
+    desc = "Show the lualine plugin.",
+    run = function()
+      require("lualine").hide({unhide = true})
+    end,
+    requires = function()
+      -- TODO: Find out if there's a better way to tell if lualine is visible.
+      local lualine_ok, _ = pcall(require, "lualine")
+      return lualine_ok and (
+        not string.find(vim.o.statusline, "lualine")
+        or not string.find(vim.o.winbar, "lualine")
+      )
+    end,
+    keywords = "lualine",
+  },
+  {
     title = "Show Status Line",
     desc = "Show the lualine statusline.",
     run = function()
-      require("lualine").hide({unhide=true})
+      require("lualine").hide({place = {"statusline"}, unhide = true})
     end,
     requires = function()
       -- TODO: Find out if there's a better way to tell if lualine is visible.
       local lualine_ok, _ = pcall(require, "lualine")
       return lualine_ok and not string.find(vim.o.statusline, "lualine")
+    end,
+    keywords = "lualine",
+  },
+  {
+    title = "Show Winbar",
+    desc = "Show the lualine winbar.",
+    run = function()
+      require("lualine").hide({place = {"winbar"}, unhide = true})
+    end,
+    requires = function()
+      -- TODO: Find out if there's a better way to tell if lualine is visible.
+      local lualine_ok, _ = pcall(require, "lualine")
+      return lualine_ok and not string.find(vim.o.winbar, "lualine")
     end,
     keywords = "lualine",
   },
