@@ -576,6 +576,38 @@ return {
     desc = "Resize all windows to be roughly equally high and wide.",
     run = "wincmd =",
   },
+  {
+    title = "Increase Window Height",
+    id = "increase_window_height",
+    desc = "Increase the height of the current window.",
+    run = function()
+      vim.cmd("resize +2")
+    end,
+  },
+  {
+    title = "Decrease Window Height",
+    id = "decrease_window_height",
+    desc = "Decrease the height of the current window.",
+    run = function()
+      vim.cmd("resize -2")
+    end,
+  },
+  {
+    title = "Increase Window Width",
+    id = "increase_window_width",
+    desc = "Increase the width of the current window.",
+    run = function()
+      vim.cmd("vertical resize +2")
+    end,
+  },
+  {
+    title = "Decrease Window Width",
+    id = "decrease_window_width",
+    desc = "Decrease the width of the current window.",
+    run = function()
+      vim.cmd("vertical resize -2")
+    end,
+  },
 
   -- Tabs --
   {
