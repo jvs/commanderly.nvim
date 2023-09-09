@@ -1,5 +1,5 @@
-  -- Two simple commands to toggle comments.
-  -- Requires 'numToStr/Comment.nvim'.
+-- Two simple commands to toggle comments.
+-- Requires 'numToStr/Comment.nvim'.
 return {
   {
     title = "Toggle Comment",

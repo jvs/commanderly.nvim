@@ -69,7 +69,7 @@ end
 
 function M.add_commands(commands)
   if type(commands) == "string" then
-    commands = {commands}
+    commands = { commands }
   end
 
   if commands.title ~= nil or commands.id ~= nil then
@@ -235,18 +235,21 @@ local function has_requirement(requirement)
   -- A requirement can be a string, a function, a table, or nil.
   if requirement == nil then
     return true
+  end
 
   -- If it's a string, then interpret it as the name of a lua module.
-  elseif type(requirement) == "string" then
+  if type(requirement) == "string" then
     local is_ok, _ = pcall(require, requirement)
     return is_ok
+  end
 
   -- If it's a function, then treat it as a boolean-valued function.
-  elseif type(requirement) == "function" then
+  if type(requirement) == "function" then
     return requirement()
+  end
 
   -- If it's a table, then treat it as a list of requirements.
-  elseif type(requirement) == "table" then
+  if type(requirement) == "table" then
     for _, item in pairs(requirement) do
       if not has_requirement(item) then
         return false
@@ -259,22 +262,20 @@ local function has_requirement(requirement)
 end
 
 local function is_available(command)
+  -- Is this command invalid or hidden?
   if command == nil or command.title == nil or command.hidden then
     return false
-  elseif not has_requirement(command.requires) then
+  end
+
+  -- Can we satisfy its requirements?
+  if not has_requirement(command.requires) then
     return false
-  -- elseif type(command.run) == "string" then
-  --   local head = command.run:gsub("%s.*", "")
-  --   local has_command = vim.fn.exists(":" .. head) > 0
-  --
-  --   if not has_command then
-  --     return false
-  --   end
   end
 
   -- Does this command require a specific mode?
   local modes = command.modes or command.mode
 
+  -- Normalize the command's "modes" setting.
   if type(modes) == "string" then
     modes = { modes }
   end
@@ -286,11 +287,12 @@ local function is_available(command)
 
   -- Otherwise, see if the command's mode works with our intial mode.
   for _, mode in ipairs(modes) do
-    if (
-      (mode == initial_mode)
-      or (mode == "visual" and is_visual_mode(initial_mode))
-      or (mode == "normal" and initial_mode == "n")
-    ) then
+    local mode_matches = (
+        (mode == initial_mode)
+            or (mode == "normal" and initial_mode == "n")
+            or (mode == "visual" and is_visual_mode(initial_mode))
+        )
+    if mode_matches then
       return true
     end
   end
@@ -405,7 +407,7 @@ function M.get_commands()
 end
 
 function M.setup(opts)
-  M.add_commands({"core", "telescope"})
+  M.add_commands({ "core", "telescope" })
   M.add_commands(opts.commands)
 
   require("telescope").load_extension("commanderly")

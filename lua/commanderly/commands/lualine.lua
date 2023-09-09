@@ -6,16 +6,13 @@ local function is_visible(place)
   return string.find(vim.o[place], "lualine")
 end
 
-
 local function show(place)
-  require("lualine").hide({place = {place}, unhide = false})
+  require("lualine").hide({ place = { place }, unhide = false })
 end
-
 
 local function hide(place)
-  require("lualine").hide({place = {place}, unhide = true})
+  require("lualine").hide({ place = { place }, unhide = true })
 end
-
 
 return {
   {
@@ -58,7 +55,7 @@ return {
     title = "Show Lualine",
     desc = "Show the lualine plugin.",
     run = function()
-      require("lualine").hide({unhide = true})
+      require("lualine").hide({ unhide = true })
     end,
     requires = function()
       return not is_visible("statusline") or not is_visible("winbar")

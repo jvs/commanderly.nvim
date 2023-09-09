@@ -303,10 +303,10 @@ return {
     title = "Show Hover Window",
     id = "lsp_hover",
     desc = (
-      "Display hover information about the symbol under the cursor in a"
-      .. " floating window. Calling this function twice jumps into the"
-      .. " floating window."
-    ),
+        "Display hover information about the symbol under the cursor in a"
+            .. " floating window. Calling this function twice jumps into the"
+            .. " floating window."
+        ),
     requires = utils.has_attached_lsp,
     run = vim.lsp.buf.hover,
     keywords = "lsp",

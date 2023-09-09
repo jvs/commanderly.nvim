@@ -21,7 +21,7 @@ end
 
 local commands = {}
 
-for num=1,9 do
+for num = 1, 9 do
   local command = {
     title = "Toggle Terminal-" .. num,
     id = "toggle_terminal_" .. num,

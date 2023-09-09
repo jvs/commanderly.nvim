@@ -133,7 +133,7 @@ local main = function(opts)
 end
 
 
-return telescope.register_extension{
+return telescope.register_extension {
   setup = setup,
   exports = { commanderly = main },
 }
