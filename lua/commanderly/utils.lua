@@ -48,4 +48,24 @@ function M.set_for_all_normal_windows(name, value)
   end
 end
 
+-- When pasting over selected text, don't put the deleted text in the register.
+function M.paste_over_selected_text(keys)
+  -- Get the value of the yank register.
+  local yanked = vim.fn.getreg('"')
+
+  -- Execute the paste operation as normal.
+  vim.api.nvim_feedkeys(keys or "p", "n", false)
+
+  -- Resore the value of the yank register immediately after this action
+  -- is finished.
+  vim.schedule_wrap(vim.fn.setreg)("", yanked)
+
+  -- Note:
+  -- There's a keymapping some people use to accomplish this:
+  -- `vim.keymap.set("v", "p", '"_dP', {})`
+  -- The problem is that this key mapping does not work correctly when you're
+  -- pasting over the last word on a line. It removes the space before the
+  -- word. (Basically, in that case it should use "p" instead of "P".)
+end
+
 return M

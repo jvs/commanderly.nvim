@@ -1,6 +1,9 @@
+-- Commands for opening Telescope.
+-- Requires 'nvim-telescope/telescope.nvim'.
+
 local utils = require("commanderly.utils")
 
-local commands = {
+return {
   {
     title = "Change colorscheme",
     id = "telescope_colorscheme",
@@ -172,8 +175,7 @@ local commands = {
     title = "Open Telescope",
     id = "telescope",
     desc = "View a list of available fuzzy finders.",
-    run = "Telescope search tool",
+    run = "Telescope",
+    keywords = "fuzzy search tool",
   },
 }
-
-return commands

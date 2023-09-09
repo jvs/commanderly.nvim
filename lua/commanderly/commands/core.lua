@@ -1,35 +1,102 @@
 local utils = require("commanderly.utils")
 
-local commands = {
+return {
   -- Commands --
   {
     title = "Open Command Editor",
     id = "q:",
     desc = "Edit a command in a special command-line window.",
-    run = { keys = "q:", mode = "n" },
+    run = { keys = "q:" },
   },
   {
     title = "Open Search Editor",
     id = "q/",
     desc = "Edit a search string in a special command-line window.",
-    run = { keys = "q/", mode = "n" },
+    run = { keys = "q/" },
   },
   {
     title = "Repeat Last Edit",
     id = ".",
     desc = "Repeat the last change.",
-    run = { keys = ".", mode = "n" },
+    run = { keys = "." },
   },
   {
     title = "Repeat Last Command",
     id = "@:",
     desc = "Repeat the last command-line.",
-    run = { keys = "@:", mode = "n" },
+    run = { keys = "@:" },
   },
   {
     title = "Repeat Last Choice",
     id = "commanderly_repeat",
     desc = "Repeat the last command selected from the command palette.",
+  },
+
+  -- Clipboard --
+  {
+    title = "Copy Selected Text",
+    id = "copy_to_clipboard",
+    desc = "Copy the selected text to the system clipboard.",
+    mode = "visual",
+    run = { keys = '"*y' },
+    keywords = "clipboard edit text",
+  },
+  {
+    title = "Cut Selected Text",
+    id = "cut_to_clipboard",
+    desc = 'Cut the selected text and move it to the system clipboard.',
+    run = { keys = '"*d' },
+    keywords = "clipboard edit text",
+  },
+  {
+    title = "Paste From Clipboard",
+    id = "paste_from_clipboard",
+    desc = "Paste using the system clipboard.",
+    mode = "normal",
+    run = { keys = '"*p' },
+    keywords = "clipboard edit text",
+  },
+  {
+    title = "Paste From Clipboard",
+    id = "paste_from_clipboard_over_selection",
+    desc = "Paste using the system clipboard.",
+    mode = "visual",
+    run = function()
+      utils.paste_over_selected_text('"*p')
+    end,
+    keywords = "edit text",
+  },
+  {
+    title = "Yank",
+    id = "y",
+    desc = "Yank the selected text.",
+    mode = "visual",
+    run = { keys = "y" },
+    keywords = "edit text yank",
+  },
+  {
+    title = "Yank Current Line",
+    id = "yy",
+    desc = "Yank the current line.",
+    mode = "normal",
+    run = { keys = "yy" },
+    keywords = "edit text yank",
+  },
+  {
+    title = "Paste",
+    id = "paste_over_selection",
+    desc = "Paste the last yanked text.",
+    mode = "visual",
+    run = utils.paste_over_selected_text,
+    keywords = "edit text yank",
+  },
+  {
+    title = "Paste",
+    id = "p",
+    desc = "Paste the last yanked text.",
+    mode = "normal",
+    run = { keys = "p" },
+    keywords = "edit text yank",
   },
 
   -- Diagnostics --
@@ -73,7 +140,7 @@ local commands = {
     desc = "Show diagnostics in a floating window.",
     run = vim.diagnostic.open_float,
     requires = utils.has_attached_lsp,
-    keywords = "lsp",
+    keywords = "lsp show",
   },
   {
     title = "Record Diagnostic Locations",
@@ -89,63 +156,80 @@ local commands = {
     title = "Convert Selection to Uppercase",
     id = "U",
     desc = "Convert selected text to uppercase.",
-    modes = {"visual"},
-    run = { keys = "U", mode = "n" },
+    mode = "visual",
+    run = { keys = "U" },
     keywords = "text",
   },
   {
     title = "Delete Current Line",
     id = "dd",
     desc = "Delete the line currently under the cursor.",
-    run = { keys = "dd", mode = "n" },
+    mode = "normal",
+    run = { keys = "dd" },
+  },
+  {
+    title = "Delete Selected Text",
+    id = "d",
+    desc = "Delete the currently selected text.",
+    mode = "visual",
+    run = { keys = "d" },
   },
   {
     title = "Undo Last Change",
     id = "u",
     desc = "Undo the last change.",
-    run = { keys = "u", mode = "n" },
+    run = { keys = "u" },
   },
   {
     title = "Redo Change",
     id = "<c-r>",
     desc = "Redo one change which was undone.",
-    run = { keys = "<C-R>", mode = "n" },
+    run = { keys = "<C-R>" },
   },
 
   -- Files --
   {
     title = "New File",
+    id = "new_file",
     desc = "Create new untitled file.",
     run = "enew",
+    keywords = "create",
   },
   {
     title = "Reload Current File",
+    id = "edit",
     desc = "Reload the current file from the disk.",
     run = "edit",
+    keywords = "refresh",
   },
   {
     title = "Revert File",
+    id = "revert_file",
     desc = "Discard current changes and reload the current file from the disk.",
     run = "edit!",
   },
   {
     title = "Close Current File",
+    id = "close_file",
     desc = "Close the current file.",
     run = "bd",
   },
   {
     title = "Discard Current File",
+    id = "discard_file",
     desc = "Close the current file without saving any changes.",
     run = "bd!",
     keywords = "close without saving",
   },
   {
     title = "Close All Files",
+    id = "close_all_files",
     desc = "Close all of the currently open files.",
     run = "%bd",
   },
   {
     title = "Save Current File",
+    id = "save_file",
     desc = "Write the current file to disk.",
     run = "write",
   },
@@ -165,6 +249,7 @@ local commands = {
   -- Location List --
   {
     title = "Open Location Window",
+    id = "open_loclist",
     desc = "Open the loclist window for the current file.",
     requires = function()
       return not utils.is_loclist_open()
@@ -174,6 +259,7 @@ local commands = {
   },
   {
     title = "Close Location Window",
+    id = "close_loclist",
     desc = "Close the loclist window for the current file.",
     requires = utils.is_loclist_open,
     run = "lclose",
@@ -396,21 +482,21 @@ local commands = {
     title = "Find Current Word",
     id = "*",
     desc = "Search for the word nearest to the cursor.",
-    run = { keys = "*", mode = "n" },
+    run = { keys = "*" },
     keywords = "search",
   },
   {
     title = "Find Next",
     id = "find_next",
     desc = "Repeat the last search and go to the next result.",
-    run = { keys = "n", mode = "n" },
+    run = { keys = "n" },
     keywords = "search",
   },
   {
     title = "Find Previous",
     id = "find_previous",
     desc = "Repeat the last search and go to the previous result.",
-    run = { keys = "N", mode = "n" },
+    run = { keys = "N" },
     keywords = "search",
   },
 
@@ -429,12 +515,14 @@ local commands = {
   },
   {
     title = "Close Window",
+    id = "close_window",
     desc = "Close the current window.",
     run = "quit",
     keywords = "quit",
   },
   {
     title = "Close Window (without saving)",
+    id = "close_window_without_saving",
     desc = "Close the current window without saving any changes.",
     run = "quit!",
     keywords = "quit",
@@ -512,5 +600,3 @@ local commands = {
     keywords = "delete",
   },
 }
-
-return commands

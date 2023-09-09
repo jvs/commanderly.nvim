@@ -5,23 +5,18 @@ Command palette plugin for Neovim.
 
 ## Installation
 
-### Packer
+### lazy.nvim
 ```lua
-  use {
-    "jvs/commanderly.nvim",
-    requires = { "nvim-telescope/telescope.nvim" },
-    config = function()
-      require("telescope").load_extension("commanderly")
-    end,
-  }
+  {
+    'jvs/commanderly.nvim',
+    dependencies = {
+      'nvim-telescope/telescope.nvim',
+    },
+    opts = {
+      commands = {"comment", "lualine", "neo-tree", "undotree", "zen-mode"},
+    },
+  },
 ```
-
-### Vim-Plug
-```viml
-Plug "nvim-telescope/telescope.nvim"
-Plug "jvs/commanderly.nvim"
-```
-
 
 ## Related Projects
 

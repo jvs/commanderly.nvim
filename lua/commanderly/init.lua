@@ -9,25 +9,35 @@ local command_list = {}
 -- A table of all the keymappings.
 local keymappings = {}
 
+-- The previous command run by Commanderly.
 local previous_command = nil
 
+-- The mode and the selection when Commanderly was opened.
 local initial_mode = nil
 local initial_selection = nil
 
+-- Indicates if the provided mode is a visual mode.
 local function is_visual_mode(mode)
   return mode == "v" or mode == "V" or mode == "\22"
 end
 
-local function in_visual_mode()
-  local modeInfo = vim.api.nvim_get_mode()
-  return is_visual_mode(modeInfo.mode)
+-- Returns the current mode as a string.
+local function get_mode()
+  return vim.api.nvim_get_mode().mode
 end
 
+-- Replace non-alphanumeric characters with underscores.
 local function create_key(s)
   return s:gsub("[^a-zA-Z0-9_]", "_"):lower()
 end
 
+-- Adds a command to our global list of commands.
 local function add_command(command)
+  if type(command) == "string" then
+    M.add_commands(require("commanderly.commands." .. command))
+    return
+  end
+
   if command.id == nil and command.title == nil then
     error("Each command must have an id, or a title, or both.")
   end
@@ -58,6 +68,10 @@ local function add_command(command)
 end
 
 function M.add_commands(commands)
+  if type(commands) == "string" then
+    commands = {commands}
+  end
+
   if commands.title ~= nil or commands.id ~= nil then
     add_command(commands)
   else
@@ -88,8 +102,12 @@ function M.map(keys, command, opts)
 
   local mode = opts.mode
 
-  if mode == nil and has_info then
-    mode = command_info.mode
+  if mode ~= nil then
+    opts.mode = nil
+  end
+
+  if mode == nil and type(command_info.mode) == "string" then
+    mode = string.sub(command_info.mode, 1, 1)
   end
 
   if mode == nil then
@@ -115,28 +133,28 @@ function M.map(keys, command, opts)
   end
 end
 
-function M.define_command(name, command, opts)
-  opts = vim.deepcopy(opts or {})
-
-  if opts.desc == nil then
-    local command_info
-    if type(command) == "string" then
-      command_info = M.get_command(command)
-    else
-      command_info = command
-    end
-
-    if command_info ~= nil then
-      opts.desc = command_info.desc
-    end
-  end
-
-  local run = function()
-    M.run(command)
-  end
-
-  vim.api.nvim_create_user_command(name, run, opts)
-end
+-- function M.define_command(name, command, opts)
+--   opts = vim.deepcopy(opts or {})
+--
+--   if opts.desc == nil then
+--     local command_info
+--     if type(command) == "string" then
+--       command_info = M.get_command(command)
+--     else
+--       command_info = command
+--     end
+--
+--     if command_info ~= nil then
+--       opts.desc = command_info.desc
+--     end
+--   end
+--
+--   local run = function()
+--     M.run(command)
+--   end
+--
+--   vim.api.nvim_create_user_command(name, run, opts)
+-- end
 
 function M.get_command(s)
   return command_index[create_key(s)]
@@ -168,7 +186,7 @@ function M.run(command)
     return
   end
 
-  if initial_selection ~= nil and not in_visual_mode() then
+  if initial_selection ~= nil and not is_visual_mode(get_mode()) then
     -- Return the cursor to the start of the selection.
     vim.fn.setpos('.', initial_selection.v)
 
@@ -200,34 +218,12 @@ function M.run(command)
   end
 end
 
-local function load_default_commands()
-  local modules = {
-    "core",
-    "integrations",
-    "telescope",
-  }
-
-  for _, name in pairs(modules) do
-    local module_name = "commanderly.commands." .. name
-    M.add_commands(require(module_name))
-  end
-end
-
-function M.setup(opts)
-  if vim.g.loaded_commanderly_commands ~= 1 then
-    load_default_commands()
-    vim.g.loaded_commanderly_commands = 1
-  end
-
-  require("telescope").load_extension("commanderly")
-end
-
 function M.open()
   local modeInfo = vim.api.nvim_get_mode()
   initial_mode = modeInfo.mode
 
   if is_visual_mode(initial_mode) then
-    initial_selection = {v = vim.fn.getpos('v'), cursor = vim.fn.getcurpos()}
+    initial_selection = { v = vim.fn.getpos('v'), cursor = vim.fn.getcurpos() }
   else
     initial_selection = nil
   end
@@ -267,20 +263,20 @@ local function is_available(command)
     return false
   elseif not has_requirement(command.requires) then
     return false
-  elseif type(command.run) == "string" then
-    local head = command.run:gsub("%s.*", "")
-    local has_command = vim.fn.exists(":" .. head) > 0
-
-    if not has_command then
-      return false
-    end
+  -- elseif type(command.run) == "string" then
+  --   local head = command.run:gsub("%s.*", "")
+  --   local has_command = vim.fn.exists(":" .. head) > 0
+  --
+  --   if not has_command then
+  --     return false
+  --   end
   end
 
   -- Does this command require a specific mode?
   local modes = command.modes or command.mode
 
   if type(modes) == "string" then
-    modes = {modes}
+    modes = { modes }
   end
 
   -- If the command doesn't specify any modes, then it's always available.
@@ -406,6 +402,13 @@ function M.get_commands()
   end
 
   return results
+end
+
+function M.setup(opts)
+  M.add_commands({"core", "telescope"})
+  M.add_commands(opts.commands)
+
+  require("telescope").load_extension("commanderly")
 end
 
 return M
