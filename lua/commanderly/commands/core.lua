@@ -91,6 +91,7 @@ local commands = {
     desc = "Convert selected text to uppercase.",
     modes = {"visual"},
     run = { keys = "U", mode = "n" },
+    keywords = "text",
   },
   {
     title = "Delete Current Line",
