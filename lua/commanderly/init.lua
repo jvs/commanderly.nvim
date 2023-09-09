@@ -276,13 +276,20 @@ local function is_available(command)
     end
   end
 
+  -- Does this command require a specific mode?
+  local modes = command.modes or command.mode
+
+  if type(modes) == "string" then
+    modes = {modes}
+  end
+
   -- If the command doesn't specify any modes, then it's always available.
-  if command.modes == nil then
+  if modes == nil then
     return true
   end
 
   -- Otherwise, see if the command's mode works with our intial mode.
-  for _, mode in ipairs(command.modes) do
+  for _, mode in ipairs(modes) do
     if (
       (mode == initial_mode)
       or (mode == "visual" and is_visual_mode(initial_mode))
