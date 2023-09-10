@@ -38,7 +38,7 @@ function M.map(keys, command_code, opts)
 
   -- Create a function for vim to call.
   local run = function()
-    runner.run(command)
+    runner.run(command_code)
   end
 
   -- Register the keymapping with vim.

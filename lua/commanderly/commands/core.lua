@@ -46,6 +46,7 @@ return {
     id = "cut_to_clipboard",
     desc = 'Cut the selected text and move it to the system clipboard.',
     run = { keys = '"*d' },
+    mode = "visual",
     keywords = "clipboard edit text",
   },
   {
