@@ -42,7 +42,16 @@ function M.map(keys, command_code, opts)
   end
 
   -- Register the keymapping with vim.
-  vim.keymap.set(mode, keys, run, opts)
+  local function set_keymap()
+    vim.keymap.set(mode, keys, run, opts)
+  end
+
+  local ok, err = pcall(set_keymap)
+  if not ok then
+    print("Failed to map " .. keys .. " to " .. command_code .. ".")
+    print(err)
+    return
+  end
 
   -- Update the command to include this keymapping.
   if command._keymappings == nil then
