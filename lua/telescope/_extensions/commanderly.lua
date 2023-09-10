@@ -104,7 +104,7 @@ local main = function(opts)
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)
         local selection = action_state.get_selected_entry()
-        if selection then
+        if selection ~= nil then
           commanderly.run(selection.value)
         end
       end)

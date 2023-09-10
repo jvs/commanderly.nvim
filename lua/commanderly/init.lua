@@ -23,10 +23,20 @@ function M.get_commands()
   return results
 end
 
+local function open_command_palette()
+  require("telescope").extensions.commanderly.commanderly()
+end
+
 function M.open()
   runner.record_initial_state()
+  open_command_palette()
+end
 
-  require("telescope").extensions.commanderly.commanderly()
+function M.run_user_command(arg)
+  runner.record_initial_range(arg.line1, arg.line2)
+
+  -- For some reason, the palette doesn't open without the schedule_wrap.
+  vim.schedule_wrap(open_command_palette)()
 end
 
 function M.setup(opts)

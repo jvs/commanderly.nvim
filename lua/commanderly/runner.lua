@@ -60,6 +60,11 @@ function M.record_initial_state()
   end
 end
 
+function M.record_initial_range(line1, line2)
+  initial_mode = "V"
+  initial_selection = { v = { 0, line1, 0, 0 }, cursor = { 0, line2, 0, 0 } }
+end
+
 function M.is_available(command)
   -- Is this command invalid or hidden?
   if command == nil or command.title == nil or command.hidden then
