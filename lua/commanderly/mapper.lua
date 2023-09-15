@@ -7,7 +7,8 @@ local M = {}
 function M.map(keys, command_code, opts)
   -- Validate the command_code argument.
   if type(command_code) ~= "string" then
-    error("Type error: expected string, received " .. type(command_code) .. ".")
+    print("Type error: expected string, received " .. type(command_code) .. ".")
+    return
   end
 
   -- Look up the command using the command code (either the command's id or title).
@@ -24,6 +25,10 @@ function M.map(keys, command_code, opts)
   -- Infer the mode from the command's mode.
   if mode == nil and type(command.mode) == "string" then
     mode = string.sub(command.mode, 1, 1)
+  end
+
+  if mode == nil and type(command.mode) == "table" then
+    mode = command.mode
   end
 
   -- If all else fails, then use normal mode as the default.

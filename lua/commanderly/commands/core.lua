@@ -519,6 +519,7 @@ return {
     id = "close_window",
     desc = "Close the current window.",
     run = "quit",
+    mode = {"n", "v"},
     keywords = "quit",
   },
   {

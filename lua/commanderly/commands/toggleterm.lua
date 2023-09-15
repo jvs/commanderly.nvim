@@ -26,6 +26,7 @@ for num = 1, 9 do
     title = "Toggle Terminal-" .. num,
     id = "toggle_terminal_" .. num,
     desc = "Toggle terminal-" .. num .. ", same as :" .. num .. "ToggleTerm",
+    mode = {"i", "n", "t", "v"},
     run = function()
       switch_terminals(num)
     end,
