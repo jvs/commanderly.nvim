@@ -301,6 +301,14 @@ return {
     keywords = "lsp",
   },
   {
+    title = "Rename Symbol",
+    id = "lsp_rename",
+    desc = "Rename the symbol under the cursor.",
+    requires = utils.has_attached_lsp,
+    run = vim.lsp.buf.rename,
+    keywords = "lsp",
+  },
+  {
     title = "Show Hover Window",
     id = "lsp_hover",
     desc = (
@@ -624,5 +632,43 @@ return {
       vim.api.nvim_win_set_cursor(0, curpos)
     end,
     keywords = "delete",
+  },
+
+  -- Themes --
+  {
+    title = "Use Light Mode",
+    id = "use_light_mode",
+    desc = "Switch to a light theme.",
+    requires = function()
+      return (vim.o.background == "dark")
+    end,
+    run = function()
+      vim.o.background = "light"
+    end,
+    keywords = "light theme",
+  },
+  {
+    title = "Use Dark Mode",
+    id = "use_dark_mode",
+    desc = "Switch to a dark theme.",
+    requires = function()
+      return (vim.o.background == "light")
+    end,
+    run = function()
+      vim.o.background = "dark"
+    end,
+    keywords = "dark theme",
+  },
+  {
+    title = "Toggle Dark Mode",
+    id = "toggle_dark_mode",
+    desc = "Switch between light and dark themes.",
+    run = function()
+      if vim.o.background == "dark" then
+        vim.o.background = "light"
+      else
+        vim.o.background = "dark"
+      end
+    end,
   },
 }
