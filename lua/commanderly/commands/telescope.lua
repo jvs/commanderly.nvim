@@ -85,7 +85,9 @@ return {
     title = "Resume Search",
     id = "telescope_resume",
     desc = "Resume the previous search.",
-    run = "Telescope resume",
+    run = function()
+      require("telescope.builtin").resume({ initial_mode = "normal" })
+    end,
     keywords = "back find telescope",
   },
   {
