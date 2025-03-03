@@ -292,14 +292,14 @@ return {
     run = vim.lsp.buf.code_action,
     keywords = "lsp",
   },
-  {
-    title = "Goto Definition",
-    id = "lsp_goto_definition",
-    desc = "Jump to the definition of the symbol under the cursor.",
-    requires = utils.has_attached_lsp,
-    run = vim.lsp.buf.definition,
-    keywords = "lsp",
-  },
+  -- {
+  --   title = "Goto Definition",
+  --   id = "lsp_goto_definition",
+  --   desc = "Jump to the definition of the symbol under the cursor.",
+  --   requires = utils.has_attached_lsp,
+  --   run = vim.lsp.buf.definition,
+  --   keywords = "lsp",
+  -- },
   {
     title = "Show Hover Window",
     id = "lsp_hover",
@@ -320,66 +320,66 @@ return {
     run = vim.lsp.buf.signature_help,
     keywords = "lsp",
   },
-  {
-    title = "Show References",
-    id = "lsp_references",
-    desc = "Show references to the symbol under the cursor.",
-    requires = utils.has_attached_lsp,
-    run = vim.lsp.buf.references,
-    keywords = "lsp",
-  },
+  -- {
+  --   title = "Show References",
+  --   id = "lsp_references",
+  --   desc = "Show references to the symbol under the cursor.",
+  --   requires = utils.has_attached_lsp,
+  --   run = vim.lsp.buf.references,
+  --   keywords = "lsp",
+  -- },
 
   -- LSP + Telescope --
-  {
-    title = "Find Definition",
-    id = "lsp_find_definition",
-    desc = "Find the definition of the symbol under the cursor.",
-    requires = utils.has_attached_lsp,
-    run = function()
-      require('telescope.builtin').lsp_definitions()
-    end,
-    keywords = "lsp telescope",
-  },
-  {
-    title = "Find References",
-    id = "lsp_find_references",
-    desc = "Find references to the symbol under the cursor.",
-    requires = utils.has_attached_lsp,
-    run = function()
-      require('telescope.builtin').lsp_references()
-    end,
-    keywords = "lsp telescope",
-  },
-  {
-    title = "Find Type Definition",
-    id = "lsp_find_type_definition",
-    desc = "Find the type of the symbol under your cursor.",
-    requires = utils.has_attached_lsp,
-    run = function()
-      require('telescope.builtin').lsp_type_definitions()
-    end,
-    keywords = "lsp telescope",
-  },
-  {
-    title = "Search Document Symbols",
-    id = "lsp_document_symbols",
-    desc = "Fuzzy find all the symbols in your current document.",
-    requires = utils.has_attached_lsp,
-    run = function()
-      require('telescope.builtin').lsp_document_symbols()
-    end,
-    keywords = "lsp telescope",
-  },
-  {
-    title = "Search Workspace Symbols",
-    id = "lsp_workspace_symbols",
-    desc = "Fuzzy find all the symbols in your current workspace.",
-    requires = utils.has_attached_lsp,
-    run = function()
-      require('telescope.builtin').lsp_dynamic_workspace_symbols()
-    end,
-    keywords = "lsp telescope",
-  },
+  -- {
+  --   title = "Find Definition",
+  --   id = "lsp_find_definition",
+  --   desc = "Find the definition of the symbol under the cursor.",
+  --   requires = utils.has_attached_lsp,
+  --   run = function()
+  --     require('telescope.builtin').lsp_definitions()
+  --   end,
+  --   keywords = "lsp telescope",
+  -- },
+  -- {
+  --   title = "Find References",
+  --   id = "lsp_find_references",
+  --   desc = "Find references to the symbol under the cursor.",
+  --   requires = utils.has_attached_lsp,
+  --   run = function()
+  --     require('telescope.builtin').lsp_references()
+  --   end,
+  --   keywords = "lsp telescope",
+  -- },
+  -- {
+  --   title = "Find Type Definition",
+  --   id = "lsp_find_type_definition",
+  --   desc = "Find the type of the symbol under your cursor.",
+  --   requires = utils.has_attached_lsp,
+  --   run = function()
+  --     require('telescope.builtin').lsp_type_definitions()
+  --   end,
+  --   keywords = "lsp telescope",
+  -- },
+  -- {
+  --   title = "Search Document Symbols",
+  --   id = "lsp_document_symbols",
+  --   desc = "Fuzzy find all the symbols in your current document.",
+  --   requires = utils.has_attached_lsp,
+  --   run = function()
+  --     require('telescope.builtin').lsp_document_symbols()
+  --   end,
+  --   keywords = "lsp telescope",
+  -- },
+  -- {
+  --   title = "Search Workspace Symbols",
+  --   id = "lsp_workspace_symbols",
+  --   desc = "Fuzzy find all the symbols in your current workspace.",
+  --   requires = utils.has_attached_lsp,
+  --   run = function()
+  --     require('telescope.builtin').lsp_dynamic_workspace_symbols()
+  --   end,
+  --   keywords = "lsp telescope",
+  -- },
 
   -- Messages --
   {
@@ -711,18 +711,18 @@ return {
     end,
     keywords = "dark theme",
   },
-  {
-    title = "Toggle Dark Mode",
-    id = "toggle_dark_mode",
-    desc = "Switch between light and dark themes.",
-    run = function()
-      if vim.o.background == "dark" then
-        vim.o.background = "light"
-      else
-        vim.o.background = "dark"
-      end
-    end,
-  },
+  -- {
+  --   title = "Toggle Dark Mode",
+  --   id = "toggle_dark_mode",
+  --   desc = "Switch between light and dark themes.",
+  --   run = function()
+  --     if vim.o.background == "dark" then
+  --       vim.o.background = "light"
+  --     else
+  --       vim.o.background = "dark"
+  --     end
+  --   end,
+  -- },
 
   -- Jumps --
   {

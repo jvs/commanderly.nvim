@@ -91,23 +91,69 @@ return {
     keywords = "back find telescope",
   },
   {
-    title = "View References",
-    id = "telescope_lsp_references",
-    desc = "View all the references to the symbol under the cursor.",
+    title = "Find Definitions",
+    id = "telescope_lsp_definitions",
+    desc = "Find the definition of the symbol under the cursor.",
     requires = utils.has_attached_lsp,
-    run = "Telescope lsp_references",
+    -- run = "Telescope lsp_definitions",
+    run = function()
+      require('telescope.builtin').lsp_definitions({ initial_mode = "normal" })
+    end,
     keywords = "lsp telescope",
   },
   {
-    title = "View Symbols",
+    title = "Find Type Definition",
+    id = "telescope_lsp_type_definitions",
+    desc = "Find the type of the symbol under your cursor.",
+    requires = utils.has_attached_lsp,
+    run = function()
+      require('telescope.builtin').lsp_type_definitions({ initial_mode = "normal" })
+    end,
+    keywords = "lsp telescope",
+  },
+  {
+    title = "Find References",
+    id = "telescope_lsp_references",
+    desc = "View references to the symbol under the cursor.",
+    requires = utils.has_attached_lsp,
+    -- run = "Telescope lsp_references",
+    run = function()
+      require('telescope.builtin').lsp_references({ initial_mode = "normal" })
+    end,
+    keywords = "lsp telescope",
+  },
+  -- {
+  --   title = "View Symbols",
+  --   id = "telescope_lsp_document_symbols",
+  --   desc = "View all the symbols defined in the current file.",
+  --   requires = utils.has_attached_lsp,
+  --   run = "Telescope lsp_document_symbols",
+  --   keywords = "lsp telescope",
+  -- },
+  {
+    title = "Search Document Symbols",
     id = "telescope_lsp_document_symbols",
-    desc = "View all the symbols defined in the current file.",
+    desc = "Fuzzy find all the symbols in your current document.",
     requires = utils.has_attached_lsp,
     run = "Telescope lsp_document_symbols",
+    -- run = function()
+    --   require('telescope.builtin').lsp_document_symbols()
+    -- end,
     keywords = "lsp telescope",
   },
   {
-    title = "Search Definitions",
+    title = "Search Workspace Symbols",
+    id = "telescope_lsp_workspace_symbols",
+    desc = "Fuzzy find all the symbols in your current workspace.",
+    requires = utils.has_attached_lsp,
+    run = "Telescope lsp_dynamic_workspace_symbols",
+    -- run = function()
+    --   require('telescope.builtin').lsp_dynamic_workspace_symbols()
+    -- end,
+    keywords = "lsp telescope",
+  },
+  {
+    title = "Search Treesitter",
     id = "telescope_treesitter",
     desc = "Search variable names and functions in the current file.",
     run = "Telescope treesitter",
