@@ -1,7 +1,7 @@
 -- Commands for toggling lualine.
 -- Requires 'nvim-lualine/lualine.nvim'.
 
-local utils = require("commanderly.commands.lualine_utils")
+local utils = require("commanderly.commands.lualine-utils")
 
 return {
   {

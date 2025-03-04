@@ -4,13 +4,13 @@
 local utils = require("commanderly.utils")
 
 return {
-  {
-    title = "Change colorscheme",
-    id = "telescope_colorscheme",
-    desc = "Pick from the available color schemes.",
-    run = "Telescope colorscheme",
-    keywords = "pick theme telescope",
-  },
+  -- {
+  --   title = "Change colorscheme",
+  --   id = "telescope_colorscheme",
+  --   desc = "Pick from the available color schemes.",
+  --   run = "Telescope colorscheme",
+  --   keywords = "pick theme telescope",
+  -- },
   {
     title = "Explore Vim Options",
     id = "telescope_vim_options",

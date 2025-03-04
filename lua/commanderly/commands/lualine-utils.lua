@@ -29,6 +29,10 @@ local function is_visible()
 end
 
 local function toggle()
+  if not has_lualine() then
+    return
+  end
+
   if is_visible() then
     hide()
   else

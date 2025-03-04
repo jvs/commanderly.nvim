@@ -11,7 +11,7 @@ return {
       return has_zen_mode
     end,
     run = function()
-      require("commanderly.commands.lualine_utils").toggle()
+      require("commanderly.commands.lualine-utils").toggle()
       require("zen-mode").toggle()
     end,
   },
