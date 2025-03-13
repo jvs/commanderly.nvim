@@ -47,18 +47,18 @@ return {
   },
 
   -- zen
-  {
-    title = "Toggle Zen-Mode",
-    id = "toggle_zen_mode",
-    desc = "Toggle zen-mode.",
-    -- TODO: Figure out how to tell if zen-mode is enabled or not.
-    -- requires = function()
-    --   local has_zen_mode, _ = pcall(require, "zen-mode")
-    --   return has_zen_mode
-    -- end,
-    run = function()
-      require("commanderly.commands.lualine-utils").toggle()
-      require('snacks').zen()
-    end,
-  },
+  -- {
+  --   title = "Toggle Zen-Mode (Snacks)",
+  --   id = "toggle_snacks_zen_mode",
+  --   desc = "Toggle zen-mode.",
+  --   -- TODO: Figure out how to tell if zen-mode is enabled or not.
+  --   -- requires = function()
+  --   --   local has_zen_mode, _ = pcall(require, "zen-mode")
+  --   --   return has_zen_mode
+  --   -- end,
+  --   run = function()
+  --     require("commanderly.commands.lualine-utils").toggle()
+  --     require('snacks').zen()
+  --   end,
+  -- },
 }
