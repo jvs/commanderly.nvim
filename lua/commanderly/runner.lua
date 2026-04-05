@@ -121,6 +121,10 @@ function M.run(command)
     return
   end
 
+  if command.run == nil and command.render ~= nil then
+    command = command.render()
+  end
+
   if initial_selection ~= nil and not is_visual_mode(get_mode()) then
     -- Return the cursor to the start of the selection.
     vim.fn.setpos('.', initial_selection.v)
