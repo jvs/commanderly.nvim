@@ -461,30 +461,56 @@ return {
       end
     end,
   },
+
   {
-    id = "toggle_word_wrap",
-    render = function()
-      if vim.o.wrap then
-        return {
-          title = "Disable Word Wrapping",
-          desc = "Display each line of text on a single line.",
-          run = function()
-            vim.o.wrap = false
-            vim.keymap.del("n", "k")
-            vim.keymap.del("n", "j")
-          end,
-        }
-      else
-        return {
-          title = "Enable Word Wrapping",
-          desc = "Use multiple lines to display long lines of text.",
-          run = function()
-            vim.o.wrap = true
-            vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-            vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-          end,
-        }
-      end
+    title = "Enable Word Wrapping",
+    id = "enable_word_wrap",
+    desc = "Use multiple lines to display long lines of text.",
+    requires = function()
+      return not vim.o.wrap
+    end,
+    run = function()
+      vim.o.wrap = true
+      vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+      vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+    end,
+  },
+
+  {
+    title = "Disable Word Wrapping",
+    id = "disable_word_wrap",
+    desc = "Display each line of text on a single line.",
+    requires = function()
+      return vim.o.wrap
+    end,
+    run = function()
+      vim.o.wrap = false
+      vim.keymap.del("n", "k")
+      vim.keymap.del("n", "j")
+    end,
+  },
+
+  {
+    title = "Enable Spell Check",
+    id = "enable_spell_check",
+    desc = "Highlight misspelled words.",
+    requires = function()
+      return not vim.wo.spell
+    end,
+    run = function()
+      vim.wo.spell = true
+    end,
+  },
+
+  {
+    title = "Disable Spell Check",
+    id = "disable_spell_check",
+    desc = "Do not highlight misspelled words.",
+    requires = function()
+      return vim.wo.spell
+    end,
+    run = function()
+      vim.wo.spell = false
     end,
   },
 
